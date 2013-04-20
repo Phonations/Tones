@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/javascripts/index.js')
+  div.container
+    form(method='post').form-horizontal.login.img-polaroid.span6
+     div.control-group.email
+      label.control-label(for="email") Email
+      div.controls
+       input#email(type="text", name="email", placeHolder="Email")
+     div.control-group.password
+      label.control-label(for="password") Password
+      div.controls
+       input#password(type="password", name="password", placeHolder="Password")
+     div.control-group
+      div.controls
+       button(type='submit').btn Enter
+     div.control-group
+      div.controls
+       a(href="/signup") Create an account 
+     div.control-group
+      div.controls.message

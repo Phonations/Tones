@@ -1,0 +1,25 @@
+{
+  "auth": {
+    "twitter": {
+      "consumerkey" : "yourConsumerKey",
+      "consumersecret" : "yourSecretKey",
+      "callback" : "http://127.0.0.1:6789/auth/twitter/callback"
+    },
+    "facebook": {
+      "clientid" : "yourClientID",
+      "clientsecret" : "yourClientSecret",
+      "callback" : "http://127.0.0.1:6789/auth/facebook/callback"
+    }
+  },
+  "session" : {
+    "secret" : "yourbestsecret"
+  },
+  "app": {
+    "port": 3333
+  },
+  "message": {
+    "valid": true,
+    "login_invalid": "invalid e-mail address or password",
+    "error_create_station": "An error has occurred, we couldn't create your station. Please try again"
+  }
+}

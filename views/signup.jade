@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/javascripts/signup.js')
+  div.container
+    form(action='/signup', method='post').form-horizontal.signup.img-polaroid.span6
+     div.control-group.username
+      label.control-label(for="username") Username
+      div.controls
+       input#username(type="text", name="username", placeHolder="Username")
+     div.control-group.email
+      label.control-label(for="email") Email
+      div.controls
+       input#email(type="text", name="email", placeHolder="Email")
+     div.control-group.password
+      label.control-label(for="password") Password
+      div.controls
+       input#password(type="password", name="password", placeHolder="Password")
+     div.control-group.confirm
+      label.control-label(for="confirm") Confirm Password
+      div.controls
+       input#confirm(type="password", name="confirm", placeHolder="Confirm Password")
+     div.control-group
+      div.controls
+       button(type='submit').btn Signup
+     div.control-group
+      div.controls
+       a(href="/") < Back
