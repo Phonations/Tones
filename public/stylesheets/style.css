@@ -2,21 +2,63 @@ body {
 	padding:0;
 	margin:0;
   	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-	background:url('/images/blue-background.jpg') no-repeat #EFEFEF;
+	background: url('/images/red-background.jpg') center top fixed no-repeat #EFEFEF;
+
 }
 ul{padding:0;margin:0;}
+p{margin-bottom:5px;}
+.clear{clear:both;}
 
+.front-card {
+	top: 50%;
+	height: 328px;
+	position:absolute;
+	margin-top:-154px;
+}
+.front-welcome {
+	height: 328px;
+}
+.front-welcome-text {
+	bottom: 50%;
+	position:absolute;
+}
+.front-signup-text {
+	padding:10px;
+	margin:0;
+	border-bottom:1px solid #EFEFEF
+}
+
+.front-signin, .front-signup {
+	background: #FFFFFF;
+	margin-bottom:10px;
+}
+.front-container-full-signup .front-welcome-text {
+	padding: 0;
+	bottom: 50%;
+}
+
+.float-right{float:right;}
+
+.front-card form {padding:10px;margin:0;}
+.front-card input[type="text"],
+.front-card input[type="password"]{width:266px;}
+.front-signin input.password{width:192px; margin-right:5px;}
+
+.front-card .form-horizontal .control-group {margin-bottom: 5px;}
+.front-card .form-horizontal .controls {margin-left: 0px;}
+
+
+
+/*
 .signup, .login{margin-top:50px;padding:50px 0;}
 .login input, 
 .signup input{margin-right:10px;}
 
 .login .alert{width:167px;}
 
-.clear{clear:both;}
-
+*/
 .home.container{margin-top:60px;}
-.home h3{color:#FFFFFF;margin:0;}
-.home h3{color:#FFFFFF;margin:0;}
+.home h3{margin:0;}
 .home input{font-size: 25px;height: auto;line-height: 30px;padding: 5px 15px;}
 .home form {margin-bottom: 0}
 
@@ -26,6 +68,60 @@ ul{padding:0;margin:0;}
 .nav-stacked > li > a > small.text-right{float: right;color: #999;}
 
 /* station page*/
+
+
+.container.station {margin-top:40px;position:relative;background-color: rgba(255,255,255,0.3);min-height:1000px;}
+
+.container.station [class*="span"] {margin-left:10px;}
+
+.container.station .left-column{margin-left:5px;}
+.nav-station .search-query{margin-left:287px;}
+.nav-station {z-index:1041;}
+
+.module {background-color:#ffffff;margin-top:10px;overflow: hidden}
+.module-inner {padding:10px;}
+.user-info img {float:left;margin-right:10px;}
+.user-info-text {margin-left:75px;}
+
+.module-title{padding:10px;margin:0;border-bottom:1px solid #EFEFEF}
+
+.connected-user{cursor:pointer;margin-bottom:5px;margin-right:5px;float:left;}
+
+textarea.comment{ 
+height:50px; 
+max-height:50px; 
+width:288px; 
+max-width:288px;
+paddin:10px;
+border-top:none;
+border-left:none;
+border-right:none;
+border-bottom:1px solid #EFEFEF;
+-moz-box-shadow:none;
+-webkit-box-shadow:none;
+box-shadow:none;}
+}
+.message {margin-bottom:10px;}
+.message img{float:left;}
+.message .message-text{margin-left:50px;}
+.message.youspeak img{float:right;}
+.message.youspeak .message-text{margin-right:50px;margin-left:0px; text-align:right;}
+
+#ytapiplayer {height:360px; background-color:#000000;}
+.inner-player{width:100%; height:40px;color:#efefef; text-align:center;padding:160px 0;}
+
+.tone {position:relative;border-bottom:1px solid #EFEFEF}
+.tone img {float:left;width:120px;height:auto;}
+.tone .tone-text {margin-left:130px;}
+.tone .btn {position:absolute; bottom:10px;right:10px;}
+
+.list-search {position:absolute;left:240px;top:-10px;z-index:1041;}
+.list-search .module{
+	margin-bottom: 20px;
+-moz-box-shadow: 1px 1px 6px #000;
+-webkit-box-shadow: 1px 1px 6px #000;
+box-shadow: 1px 1px 6px #000;}
+/*
 #ytapiplayer {margin-top:60px;}
 .inner-player{color:#efefef; text-align:center};
 
@@ -40,7 +136,7 @@ ul{padding:0;margin:0;}
 .user-info .avatar{float:left;margin-right:10px;}
 .user-info #songs .badge-important {margin-right:5px}
 
-/* item search */
+/* item search 
 .item {list-style-type: none;padding:0;margin:0;background-color: #EFEFEF;margin:10px 0;cursor:pointer;}
 .item:hover, .item:hover, .item.current{background-color: #ffffff;color:#000000;}
 .item img, .item img{float:left;margin-right:10px;}
@@ -54,7 +150,7 @@ ul{padding:0;margin:0;}
 
 .navbar .nav span{margin-left:5px}
 
-/* navbar search */
+/* navbar search 
 .span6 .navbar{margin:10px 0;height: 40px;}
 .span6 .navbar .nav{margin-top:4px;}
 .span6 .navbar .nav li{cursor:pointer;}

@@ -10,55 +10,113 @@ block content
   script(type='text/javascript', src='/javascripts/tones.users.js')
   script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/station.js')
-  include nav
-  div.container
-   div#ytapiplayer.player.img-polaroid 
-    div.inner-player There is no videos in the playlist, use the search to add videos in the playlist!
-   div.row
-    div.span6
-     div.user-info
-      img(src='/images/avatar.jpg').img-polaroid.avatar
-      h1 Hi 
-       span#nickname #{user.username}
-      p#nb-song you can add 8 more songs
-      div#songs
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-       span.badge.badge-important
-        i.icon-music.icon-white
-     div.navbar.clear
-       form.form-inline.navbar-search
-        i.icon-search
-        input#search_input.search-query(type="text", name="keyword", placeholder="Search new videos")
-       ul.nav.nav-pills
-        li#menu-users.img-rounded
-         a 
-          i.icon-user
-          span Users
-          span.badge 1
-        li#menu-comments.img-rounded
-         a 
-          i.icon-comment
-          span Chat
-          span.badge 0
-     div.search.list.clear
-     div.users.list.clear
-     div.comments.list.clear
-    div.playlist.span6
-     h1 Now playing
-     div.list
-      ul
+  include nav_station
+  div.container.station
+   div.span4.left-column
+    div.module.img-rounded
+     div.user-info.module-inner
+      img(src='/images/avatar.jpg', width="65px").img-rounded.avatar
+      div.user-info-text
+       strong Hi 
+        span#nickname #{user.username}
+       p#nb-song you can add 8 more songs 
+       div#songs
+        span.badge.badge-important
+         i.icon-music.icon-white
+      div.clear
+    div.module.img-rounded
+     div.module-title
+      i.icon-user
+      strong  Connected Users 
+      span (4)
+     div.module-inner 
+      div.connected-user
+       a(href="#",data-toggle="tooltip",title="thibautdelille")
+        img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+      div.connected-user
+       a(href="#",data-toggle="tooltip",title="thibautdelille")
+        img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+      div.connected-user
+       a(href="#",data-toggle="tooltip",title="thibautdelille")
+        img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+      div.connected-user
+       a(href="#",data-toggle="tooltip",title="thibautdelille")
+        img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+      div.clear
+    div.module.img-rounded
+     div.module-title
+      i.icon-comment
+      strong  Chat
+     textarea(row="3",placeHolder="your message").comment
+     div.chat-box.module-inner
+      div.message.img-rounded.youspeak
+       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+       div.message-text
+        small.muted thibautdelille  
+        br
+        small Lorem ipsum dolor sit amet
+      div.message.img-rounded
+       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+       div.message-text
+        small.muted thibautdelille  
+        br
+        small Mauris diam massa, consequat eu volutpat et, pretium quis urna. Ut.
+      div.message.img-rounded
+       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
+       div.message-text
+        small.muted thibautdelille  
+        br
+        small Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dolor eu ligula ultrices gravida. Phasellus a pretium ante. Mauris diam massa, consequat eu volutpat et, pretium quis urna. Ut.
+   div.span8 
+    div.module.img-rounded
+     div.module-inner 
+      h1 #{station.name}
+    div.module.img-rounded
+     div#ytapiplayer.player
+      div.inner-player There is no videos in the playlist, use the search to add videos in the  playlist!
+     div.module-title
+      i.icon-play
+      strong  Now playing 
+     div.tone.module-inner
+      img(src="http://i.ytimg.com/vi/wycjnCCgUes/default.jpg")
+      div.tone-text
+       span.muted 
+       p 
+        strong Tame Impala - Feels Like We Only Go Backwards
+       span.label.label-important Music
+      div.clear
+    div.module.img-rounded
+     div.module-title
+      i.icon-list
+      strong  Playlist
+   div.list-search.span6
+    div.module.img-rounded
+     div.tone.module-inner
+      img(src="http://i.ytimg.com/vi/wycjnCCgUes/default.jpg")
+      div.tone-text
+       p 
+        strong Tame Impala - Feels Like We Only Go Backwards
+       p.muted 3:52
+       span.label.label-important Music
+       button.btn.btn-success(type="button") + Add to the playlist
+      div.clear
+     div.tone.module-inner
+      img(src="http://i.ytimg.com/vi/wycjnCCgUes/default.jpg")
+      div.tone-text
+       p 
+        strong Tame Impala - Feels Like We Only Go Backwards
+       p.muted 3:52
+       span.label.label-important Music
+       button.btn.btn-success(type="button") + Add to the playlist
+      div.clear
+     div.tone.module-inner
+      img(src="http://i.ytimg.com/vi/wycjnCCgUes/default.jpg")
+      div.tone-text
+       p 
+        strong Tame Impala - Feels Like We Only Go Backwards
+       p.muted 3:52
+       span.label.label-important Music
+       button.btn.btn-success(type="button") + Add to the playlist
+      div.clear
 
   

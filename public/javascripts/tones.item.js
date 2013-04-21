@@ -2,16 +2,17 @@
   var methods = {
     init : function( options ) {
       
+      console.log('titem init');
       var self = this;
 
-      $(this).bind('click', function(){
+      $('.btn', this).bind('click', function(){
         //$('.playlist').tplaylist('add', $(this).attr('id'));
         var data = {
           id:$(self).attr('id'),
           thumb:$('img', self).attr('src'),
-          title:$('.title', self).html(),
-          category:$('.cat', self).html(),
-          duration:$('.duration', self).html()
+          title:$('strong', self).html(),
+          category:$('.label', self).html(),
+          duration:$('.muted', self).html()
         }
 
 

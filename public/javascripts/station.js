@@ -16,14 +16,14 @@ var nbSongsMax = 8;
 
 $(document).ready(function(){
 	$('#ytapiplayer').tplayer();
-	$('.search').tsearch();
+	$('.list-search').tsearch();
   $('.playlist').tplaylist();
   
   var name = $('#nickname').html();
   //var user = {'id':idUSER, 'name':name}
   socket.emit('init');
 
-
+  $('.connected-user a').tooltip();
 /* 
   socket.on('ready', function (items, users) {
     $('.users').tusers(users);
@@ -63,6 +63,7 @@ $(document).ready(function(){
 function addItem(data){
   console.log ('addItem')
   socket.emit('addItem',data);
+  $('.list-search').tsearch('hide');
 }
 function playerStopped(idItem){
   console.log ('playerStopped')

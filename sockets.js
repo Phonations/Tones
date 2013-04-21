@@ -49,12 +49,17 @@ io.sockets.on('connection', function (socket) {
     , user = hs.tones.user
     , station_id = hs.tones.station
     , now = new Date()
+    ,station;
 
-  socket.join(station_id);
+  Station.findById(station_id).exec(function(err, data){
+    station = data;
+    socket.join(station_id);
 
-  utils.enterStation(user._id, station_id, function(){
-    console.log('user '+user.username+' enter in room:'+station_id);
+    station.enter(user._id, function(){
+      console.log('user '+user.username+' enter in room:'+station_id);
+    });
   });
+
 
   socket.on('init', function(data) {
     console.log('welcome to '+user.username+' room:'+station_id);
@@ -62,8 +67,10 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('addItem', function(data) {
-    utils.createTone(data, station_id, user._id, function(){
-      console.log('tone '+data.title+' has been added in station '+station_id);
+    utils.createTone(data, function(tone_id){
+      station.addTone(tone_id, user._id, function(){
+        console.log('tone '+data.title+' has been added in station '+station_id);
+      });
     })
   });
 
@@ -74,7 +81,7 @@ io.sockets.on('connection', function (socket) {
   * when a user disconnect
   */
   socket.on('disconnect', function  () {
-    utils.leaveStation(user._id, station_id, function(){
+    station.leave(user._id, function(){
       console.log('user '+user.username+' leave the room:'+station_id);
     });
   });

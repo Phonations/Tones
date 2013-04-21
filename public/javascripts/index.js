@@ -2,21 +2,21 @@ $(document).ready(function(){
 	$('input').bind('focus', function(){
 		$(this).parent().parent().removeClass('error');
 	})
-	$('form').submit(function() {
-        var email = $('#email').val();
-        var password = $('#password').val();
+	$('.front-signin form').submit(function() {
+        var email = $('.email', this).val();
+        var password = $('.password', this).val();
         var isValid = true;
 
 		if(email== ''){
-			$('.email').addClass('error');
+			$('.email', this).parent().parent().addClass('error');
 			isValid = false;
         }
         if(IsEmail(email)==false){
-			$('.email').addClass('error');
+			$('.email', this).parent().parent().addClass('error');
 			isValid = false;
         }
 		if(password.length < 6){
-			$('.password').addClass('error');
+			$('.password', this).parent().parent().addClass('error');
 			isValid = false;
         }
 		if(isValid){
@@ -39,5 +39,33 @@ $(document).ready(function(){
 			});
 		}
         return false;
+	});
+
+	$('.front-signup form').submit(function() {
+        var username = $('.username', this).val();
+        var email = $('.email', this).val();
+        var password = $('.password', this).val();
+
+        var isValid = true;
+
+		if($('.username').val() == ''){
+			$('.username', this).parent().parent().addClass('error');
+			isValid = false;
+		}
+		if(email== ''){
+			$('.email', this).parent().parent().addClass('error');
+			isValid = false;
+        }
+        if(IsEmail(email)==false){
+			$('.email', this).parent().parent().addClass('error');
+			isValid = false;
+        }
+		if(password.length < 6){
+			$('.password', this).parent().parent().addClass('error');
+			isValid = false;
+        }
+        
+		if(!isValid)
+			return false;
 	});
 });

@@ -13,25 +13,36 @@
     	$(this).data('options.tsearch', $.extend(this, defaultSettings, options));
     	
     	var options = $(this).data('options');
-      /*$('#search', this).bind('click', function(){
-        $(self).tsearch('search');
-      });*/
+
+      $(this).css('display', 'none');
+      
+      $("input#search").keyup(function() {
+        window.setTimeout(function(){
+          console.log($("input").val());
+          if($("input").val() == ""){
+            $('.self').html('');
+          }else{
+            $(self).tsearch('search');
+          }
+        }, 40);
+      });
+
       $('form.navbar-search').submit(function() {
-        $(self).tsearch('search');
+        //$(self).tsearch('search');
         return false;
       });
 
-      $('#search_input').on('focus', function(){
-          $('.search.list').css('display', 'block');
-          $('.comments.list').css('display', 'none');
-          $('.users.list').css('display', 'none');
+      $('input#search').on('focus', function(){
+          if($("input#search").val() != ""){
+            $(self).tsearch('search');
+          }
       });
     },
 
     search : function(){
       var self = this;
       var options = $(this).data('options.tsearch');
-      var search_input = $('#search_input').val();
+      var search_input = $("input#search").val();
       $.ajax({
         dataType: "json",
         url: options.url+search_input,
@@ -45,27 +56,56 @@
       var self = this;
       var items = [];
       $.each(data.data.items, function(key, val) {
-        var item = '<li id="' + val.id + '" class="item img-rounded">' 
-                +'<img width="120px" src="'+val.thumbnail.sqDefault+'" class="img-rounded">'
-                +'<div class="item_content">'
-                +'<h6 class="title">'+val.title+'</h6>'
-                +'<p class="cat label label-important">'+val.category+'</p>'
-                +'<p><span class="duration">'+secondsToTime(val.duration)+'</span></p>'
-                +'<div></li>';
+        var item='<div id="' + val.id + '" class="tone module-inner">'
+        +'<img src="'+val.thumbnail.sqDefault+'">'
+        +'<div class="tone-text">'
+          +'<p><strong>'+val.title+'</strong></p>'
+          +'<p class="muted">'+secondsToTime(val.duration)+'</p>'
+          +'<span class="label label-important">'+val.category+'</span>'
+          +'<button type="button" class="btn btn-success">+ Add to the playlist</button>'
+        +'</div>'
+        +'<div class="clear">'
+        +'</div>'
+        +'</div>';
         items.push(item);
 
       });
-      var list = $('<ul/>', {
-        'class': 'my-new-list',
+      var list = $('<div/>', {
+        'class': 'module',
         html: items.join('')
       });
+      $(self).css('display', 'block');
+      if($('.modal-backdrop').length == 0){
+        var backdrop = $('<div/>', {'class': 'modal-backdrop'});
+        $('body').append(backdrop)
+        backdrop.addClass('fade');
+        backdrop.addClass('out');
+        window.setTimeout(function(){
+          backdrop.removeClass('out');
+          backdrop.addClass('in');
+        },50);
+        backdrop.bind('click',function(){
+          $(self).tsearch('hide');
+        })
+      }
       $(self).html(list);
-
-      $('.item', self).each(function(){
+      list.addClass('img-rounded');
+      $('.tone', self).each(function(){
         $(this).titem();
       });
-    }
 
+    },
+
+    hide : function(){
+      var self = this;
+      var backdrop = $('.modal-backdrop');
+      backdrop.removeClass('in');
+      backdrop.addClass('out');
+      $(self).css('display', 'none');
+      window.setTimeout(function(){
+        backdrop.remove();
+      },200);
+    }
   };
   $.fn.tsearch = function( method ) {
     
