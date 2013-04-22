@@ -18,8 +18,8 @@ stationSchema.methods.addTone = function (tone_id, user_id, fn) {
 	  'id':tone_id,
 	  'user_id':user_id
 	}
-	this.tones.push(tone)
-
+	this.tones.push(tone);
+  this.save();
 	// we remove a tone from the user that created it
 	for(var i=0;i<this.users.length;i++){
 	  var temp_id = this.users[i].id;

@@ -28,7 +28,7 @@ userSchema.methods.speak = function () {
   var greeting = this.username
     ? "Hi name is " + this.username
     : "I don't have a name"
-  console.log(greeting);
+  //console.log(greeting);
 }
 
 

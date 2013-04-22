@@ -11,14 +11,12 @@ swfobject.embedSWF("http://www.youtube.com/v/wycjnCCgUes?enablejsapi=1&playerapi
 
 
 var socket = io.connect();
-var listusers = []; 
-var nbSongsMax = 8;
 
 $(document).ready(function(){
 	$('#ytapiplayer').tplayer();
 	$('.list-search').tsearch();
   $('.playlist').tplaylist();
-  //$('.users').tusers();
+  $('.users').tusers();
 
   socket.emit('init');
 
@@ -27,13 +25,6 @@ $(document).ready(function(){
   if($('.player-wrap .tone').attr('id')!=undefined){
     $('#ytapiplayer').tplayer('playVideo', $('.player-wrap .tone').attr('yt_id'));
   }
-  
-  /*socket.on('ready', function (items, users) {
-    $('.users').tusers(users);
-    for (var i = 0; i<items.length; i++){
-     $('.playlist').tplaylist('add', items[i]);
-    }
-  });*/
 
   socket.on('newUser', function (user) {
     console.log('newUser:'+user);

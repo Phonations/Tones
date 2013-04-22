@@ -7,30 +7,21 @@
     },
     add : function (data){
       var self = this;
-      /*var item = '<li id="' + data.id + '" class="item img-rounded">' 
-              +'<img width="120px" src="'+data.thumb+'" class="img-rounded">'
-              +'<div class="item_content">'
-              +'<h6 class="title">'+data.title+'</h6>'
-              +'<div class="span1">'
-              +'<p class="cat label label-important">'+data.category+'</p>'
-              +'<p><span class="duration">'+data.duration+'</span></p>'
-              +'</div>'
-              +'<div class="addedby">'
-              +'<p>added by <span class="label label-success">'+data.user.name+'</span></p>'
-              +'</div></div></li>';*/
-      var item = '<div id="' + data._id + '" class="tone module-inner">' 
+      var item = '<div id="' + data._id + '"  id_yt="' + data.id + '" class="tone module-inner">' 
               +'<img src="' + data.thumb + '">' 
               +'<div class="tone-text">' 
               +'<span class="muted"></span>' 
               +'<p> <strong>' + data.title + '</strong></p>' 
               +'<p class="muted">' + data.duration + '</p>' 
-              +'<span class="label label-important">' + data.category + '</span>' 
+              +'<p><span class="label label-important">' + data.category + '</span></p>' 
+              +'<p>Added by <span class="label label-warning">' + data.user.username + '</span></p>' 
               +'</div>' 
               +'<div class="clear"></div></div>';
 
       if($('.player-wrap .tone').attr('id')==undefined){
         $('.player-wrap .tone').remove();
         $('.player-wrap').append(item);
+        $('#ytapiplayer').tplayer('playVideo', $('.player-wrap .tone').attr('id_yt'));
       }else{
         $(this).append(item);
       }

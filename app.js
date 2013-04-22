@@ -48,8 +48,6 @@ var sessionStore = exports.sessionStore = new MongoStore();
  */
 require('./strategy');
 
-
-
 //var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || config.app.port || 3000);

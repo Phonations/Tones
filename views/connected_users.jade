@@ -4,6 +4,6 @@ div.module-title
   span (#{station.users.length})
  div.module-inner 
   - each connectuser,index in station.users 
-   div.connected-user(id="#{connectuser.id}")
+   div.connected-user(id="#{connectuser._id}")
     a(href="#",data-toggle="tooltip",title="#{connectuser.username}")
      img(src='/images/avatar.jpg', width="40px").img-rounded.avatar

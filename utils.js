@@ -49,7 +49,6 @@ exports.createUser = function (data, res, fn) {
   User.find({'email':data.email}).exec(function(err, users){
     if(err) res.send({'error':'An error has occurred'});
     if(users.length>0){
-      console.log('user found:'+users[0].username);
       fn(users[0]);
     }else{
       var user = new User({
@@ -59,7 +58,6 @@ exports.createUser = function (data, res, fn) {
       user.password = user.encodePassword(data.password)
       user.save(function(err, user){
         if(err) res.send(config.message.valid);
-        console.log('user save:'+user);
         fn(user);
       });
     }
@@ -76,7 +74,6 @@ exports.createTone = function (data, fn) {
   Tone.find({'id':data.id}).exec(function(err, tones){
     if(err) res.send({'error':'An error has occurred'});
     if(tones.length>0){
-      console.log('tone found:'+tones[0]._id);
       fn(tones[0]._id);
     }else{
       var tone = new Tone({
@@ -89,23 +86,67 @@ exports.createTone = function (data, fn) {
 
       tone.save(function(err, tone){
         if(err) res.send(config.message.valid);
-        console.log('tone save:'+tone._id);
         fn(tone._id);
       });
     }
   });
 };
 
+/**
+* function getTones(data, fn)
+* data  : Array([{id:[id], user_id:[user_id]}, ...])
+* fn    : callback
+*
+* return 
+* tones : Array([
+  {
+    _id:ObjectId,
+    id:String,
+    thumb:String,
+    title:String,
+    category:String,
+    duration:String,
+    User : {
+      id:ObjectId, 
+      username:String
+    }
+  }, ...
+])  
+
+ This function get all objects Tones from toneProvider and also get the associated username linked to the tone from the entry Array data
+*/
 exports.getTones = function(data, fn){
   var tones_id = [];
+  var users_id = [];
+  var tempusers_id = [];
   for(var i = 0; i < data.length; i++){
     tones_id.push(data[i].id)
-    console.log('data[i].id:'+data[i].id);
+    var user_id = data[i].user_id;
+    tempusers_id[user_id] = user_id;
   }
-  Tone.find().where('_id').in(tones_id).exec(function(err, tones){
+
+  for(user_id in tempusers_id){
+    users_id.push(user_id)
+  }
+
+  User.find().where('_id').in(users_id).exec(function(err, users){
     if(err) res.send({'error':'An error has occurred'});
-    console.log(tones.length+' tones found');
-    fn(tones);
+    tempusers_id = [];
+    for(var i = 0; i < users.length; i++){
+      var user_id = users[i]._id;
+      tempusers_id[user_id] = users[i].username;
+    }
+    Tone.find().where('_id').in(tones_id).exec(function(err, tones){
+      if(err) res.send({'error':'An error has occurred'});
+      for(var i = 0; i < tones.length; i++){
+        var user = {
+          "_id" : data[i].user_id,
+          "username" : tempusers_id[data[i].user_id]
+        }
+        tones[i].user = user;
+      }
+      fn(tones);
+    })
   })
 }
 
@@ -116,7 +157,7 @@ exports.getUsers = function(data, fn){
   }
   User.find().where('_id').in(users_id).exec(function(err, users){
     if(err) res.send({'error':'An error has occurred'});
-    console.log(users.length+' users found');
+    //console.log(users.length+' users found');
     fn(users);
   })
 }

@@ -17,8 +17,6 @@ var app = module.parent.exports.app
  */
 app.get('/', function(req, res, next){
   if(req.isAuthenticated()){
-    console.log('req.isAuthenticated');
-    console.log('req.user:'+req.user._doc.username);
     res.redirect('/home');
   } else{
     res.render('index', { title: 'login'});
@@ -79,7 +77,6 @@ app.get('/home', utils.restrict, function(req, res){
 });
 
 app.post('/create-station', utils.restrict, function(req, res){
-  console.log('we are creating a station');
   var station = new Station({
     'name':req.body.name,
     'id_user_create':req.user._id,
