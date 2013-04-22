@@ -70,7 +70,7 @@ io.sockets.on('connection', function (socket) {
           data._id = tone_id;
           console.log('tone '+data.title+' has been added in station '+station_id);
           data.user = user;
-          io.sockets.in(station_id).emit('itemAdded', data);
+          io.sockets.in(station_id).emit('newItem', data);
         });
       });
     })
@@ -85,6 +85,20 @@ io.sockets.on('connection', function (socket) {
             io.sockets.in(station_id).emit('playItem', data.id);
           });
         }
+      });
+    });
+  });
+
+
+  socket.on('sendMessage', function  (data) {
+    var user_message = {
+       '_id': user._id
+    }
+    data.user = user_message;
+    Station.findById(station_id).exec(function(err, station){
+      station.addMessage(data, function(){
+        data.user.username = user.username;
+        io.sockets.in(station_id).emit('newMessage', data);
       });
     });
   });

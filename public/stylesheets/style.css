@@ -92,14 +92,15 @@ height:50px;
 max-height:50px; 
 width:288px; 
 max-width:288px;
-paddin:10px;
+padding:10px;
+margin:0px;
 border-top:none;
 border-left:none;
 border-right:none;
 border-bottom:1px solid #EFEFEF;
 -moz-box-shadow:none;
 -webkit-box-shadow:none;
-box-shadow:none;}
+box-shadow:none;
 }
 .message {margin-bottom:10px;}
 .message img{float:left;}

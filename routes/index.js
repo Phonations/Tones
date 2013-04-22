@@ -111,10 +111,13 @@ app.get('/station/:id', utils.restrict, function(req, res){
       station.users = users
       utils.getTones(station.tones, function(tones){
         station.tones = tones
-        res.render('station', {
-          title: 'station - '+station.name,
-          user: req.user._doc,
-          station: station
+        utils.getMessages(station.messages, function(messages){
+          station.messages = messages
+          res.render('station', {
+            title: 'station - '+station.name,
+            user: req.user._doc,
+            station: station
+          });
         });
       });
     });

@@ -94,7 +94,7 @@ exports.createTone = function (data, fn) {
 
 /**
 * function getTones(data, fn)
-* data  : Array([{id:[id], user_id:[user_id]}, ...])
+* data  : Array([{id:ObjectId, user_id:ObjectId}, ...])
 * fn    : callback
 *
 * return 
@@ -147,6 +147,55 @@ exports.getTones = function(data, fn){
       }
       fn(tones);
     })
+  })
+}
+
+/**
+* function getMessages(data, fn)
+* data  : Array([{message:String, user:{_id:ObjectId}, ...])
+* fn    : callback
+*
+* return 
+* tones : Array([
+  {
+    message:String,
+    User : {
+      id:ObjectId, 
+      username:String
+    }
+  }, ...
+])  
+
+ This function get all objects Tones from toneProvider and also get the associated username linked to the tone from the entry Array data
+*/
+exports.getMessages = function(data, fn){
+  var users_id = [];
+  var tempusers_id = [];
+  for(var i = 0; i < data.length; i++){
+    var user_id = data[i].user._id;
+    tempusers_id[user_id] = user_id;
+  }
+
+  for(user_id in tempusers_id){
+    users_id.push(user_id)
+  }
+
+  User.find().where('_id').in(users_id).exec(function(err, users){
+    if(err) res.send({'error':'An error has occurred'});
+    tempusers_id = [];
+    for(var i = 0; i < users.length; i++){
+      var user_id = users[i]._id;
+      tempusers_id[user_id] = users[i].username;
+    }
+
+    for(var i = 0; i < data.length; i++){
+      var user = {
+        "_id" : data[i].user_id,
+        "username" : tempusers_id[data[i].user._id]
+      }
+      data[i].user = user;
+    }
+    fn(data.reverse());
   })
 }
 

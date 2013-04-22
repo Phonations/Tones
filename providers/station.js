@@ -6,6 +6,7 @@ var stationSchema = mongoose.Schema({
     id_user_create : String,
     users: Array,
     tones: Array,
+    messages: Array,
     tones_archives: Array,
     current: Number,
     nb_users: Number,
@@ -35,6 +36,12 @@ stationSchema.methods.addTone = function (tone_id, user_id, fn) {
 	}
 	this.save();
 	fn();
+}
+
+stationSchema.methods.addMessage = function (message, fn) {
+  this.messages.push(message);
+  this.save();
+  fn();
 }
 
 stationSchema.methods.enter = function (user_id, fn) {

@@ -8,6 +8,7 @@ block content
   script(type='text/javascript', src='/javascripts/tones.item.js')
   script(type='text/javascript', src='/javascripts/tones.search.js')
   script(type='text/javascript', src='/javascripts/tones.users.js')
+  script(type='text/javascript', src='/javascripts/tones.messages.js')
   script(type='text/javascript', src='/socket.io/socket.io.js')
   script(type='text/javascript', src='/javascripts/station.js')
   include nav_station
@@ -17,30 +18,8 @@ block content
      include user_info
     div.module.img-rounded.users
      include connected_users
-    div.module.img-rounded
-     div.module-title
-      i.icon-comment
-      strong  Chat
-     textarea(row="3",placeHolder="your message").comment
-     div.chat-box.module-inner
-      div.message.img-rounded.youspeak
-       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
-       div.message-text
-        small.muted thibautdelille  
-        br
-        small Lorem ipsum dolor sit amet
-      div.message.img-rounded
-       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
-       div.message-text
-        small.muted thibautdelille  
-        br
-        small Mauris diam massa, consequat eu volutpat et, pretium quis urna. Ut.
-      div.message.img-rounded
-       img(src='/images/avatar.jpg', width="40px").img-rounded.avatar
-       div.message-text
-        small.muted thibautdelille  
-        br
-        small Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus hendrerit dolor eu ligula ultrices gravida. Phasellus a pretium ante. Mauris diam massa, consequat eu volutpat et, pretium quis urna. Ut.
+    div.module.img-rounded.messages
+     include tone_messages
    div.span8 
     div.module.img-rounded
      div.module-inner 

@@ -17,6 +17,7 @@ $(document).ready(function(){
 	$('.list-search').tsearch();
   $('.playlist').tplaylist();
   $('.users').tusers();
+  $('.messages').tmessages();
 
   socket.emit('init');
 
@@ -36,8 +37,8 @@ $(document).ready(function(){
     $('.users').tusers('remove', user);
   });
 
-  socket.on('itemAdded', function (data) {
-    console.log('itemAdded:'+data.title);
+  socket.on('newItem', function (data) {
+    console.log('newItem:'+data.title);
     $('.playlist').tplaylist('add', data);
   });
 
@@ -50,8 +51,8 @@ $(document).ready(function(){
     $('.playlist').tplaylist('remove', idItem);
   });
 
-  socket.on('chat', function (data) {
-    //$('.comments').tcomments('chat', data);
+  socket.on('newMessage', function (data) {
+    $('.messages').tmessages('add', data);
   });
 })
 
@@ -64,6 +65,10 @@ function addItem(data){
 function playerStopped(idItem){
   console.log ('playerStopped')
   socket.emit('playerStopped',idItem);
+}
+function sendMessage(data){
+  console.log ('sendMessage');
+  socket.emit('sendMessage',data);
 }
 
 function secondsToTime (seconds){
