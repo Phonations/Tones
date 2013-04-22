@@ -1,2 +1,9 @@
 .DS_Store
 node_modules
+.DS_Store
+providers/.DS_Store
+public/.DS_Store
+public/javascripts/.DS_Store
+public/javascripts/libs/.DS_Store
+public/stylesheets/.DS_Store
+views/.DS_Store
