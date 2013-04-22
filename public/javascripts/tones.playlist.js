@@ -7,7 +7,7 @@
     },
     add : function (data){
       var self = this;
-      var item = '<li id="' + data.id + '" class="item img-rounded">' 
+      /*var item = '<li id="' + data.id + '" class="item img-rounded">' 
               +'<img width="120px" src="'+data.thumb+'" class="img-rounded">'
               +'<div class="item_content">'
               +'<h6 class="title">'+data.title+'</h6>'
@@ -17,12 +17,31 @@
               +'</div>'
               +'<div class="addedby">'
               +'<p>added by <span class="label label-success">'+data.user.name+'</span></p>'
-              +'</div></div></li>';
+              +'</div></div></li>';*/
+      var item = '<div id="' + data._id + '" class="tone module-inner">' 
+              +'<img src="' + data.thumb + '">' 
+              +'<div class="tone-text">' 
+              +'<span class="muted"></span>' 
+              +'<p> <strong>' + data.title + '</strong></p>' 
+              +'<p class="muted">' + data.duration + '</p>' 
+              +'<span class="label label-important">' + data.category + '</span>' 
+              +'</div>' 
+              +'<div class="clear"></div></div>';
 
-      $('.list ul', self).append(item);
+      if($('.player-wrap .tone').attr('id')==undefined){
+        $('.player-wrap .tone').remove();
+        $('.player-wrap').append(item);
+      }else{
+        $(this).append(item);
+      }
     },
     remove : function (videoId){
-      $('#'+videoId, this).remove();
+      if($('.player-wrap .tone').attr('id')==videoId){
+        $('.player-wrap .tone').remove();
+        $('.player-wrap').append($('.tone:lt(1)', this));
+      }else{
+        $('#'+videoId, this).remove();
+      }
     }
   };
   $.fn.tplaylist = function( method ) {

@@ -67,15 +67,31 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('addItem', function(data) {
+    var playnow = false;
+    if(station.tones.length==0){
+      playnow = true;
+    }
     utils.createTone(data, function(tone_id){
       station.addTone(tone_id, user._id, function(){
+        data._id = tone_id;
         console.log('tone '+data.title+' has been added in station '+station_id);
+        io.sockets.in(station_id).emit('itemAdded', data);
+        if(playnow){
+          io.sockets.in(station_id).emit('playItem', data.id);
+        }
       });
     })
   });
 
-  socket.on('playerStopped', function  (idItem) {
-
+  socket.on('playerStopped', function  (tone_id) {
+    io.sockets.in(station_id).emit('removeItem', tone_id);
+    station.archiveTone(tone_id, function(){
+      if(station.tones.length>0){
+        Tone.findById(station.tones[0].id).exec(function(err, data){
+          io.sockets.in(station_id).emit('playItem', data.id);
+        });
+      }
+    });
   });
   /**
   * when a user disconnect

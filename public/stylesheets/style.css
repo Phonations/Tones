@@ -2,7 +2,7 @@ body {
 	padding:0;
 	margin:0;
   	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-	background: url('/images/red-background.jpg') center top fixed no-repeat #EFEFEF;
+	background:  #EFEFEF;
 
 }
 ul{padding:0;margin:0;}
@@ -76,7 +76,7 @@ p{margin-bottom:5px;}
 
 .container.station .left-column{margin-left:5px;}
 .nav-station .search-query{margin-left:287px;}
-.nav-station {z-index:1041;}
+.nav-station {z-index:1042;}
 
 .module {background-color:#ffffff;margin-top:10px;overflow: hidden}
 .module-inner {padding:10px;}
@@ -115,7 +115,7 @@ box-shadow:none;}
 .tone .tone-text {margin-left:130px;}
 .tone .btn {position:absolute; bottom:10px;right:10px;}
 
-.list-search {position:absolute;left:240px;top:-10px;z-index:1041;}
+.list-search {position:absolute;left:240px;top:0px;z-index:1041;}
 .list-search .module{
 	margin-bottom: 20px;
 -moz-box-shadow: 1px 1px 6px #000;

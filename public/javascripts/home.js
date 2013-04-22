@@ -15,7 +15,7 @@ $(document).ready(function(){
 		window.setTimeout(function(){
 		console.log($("input").val());
 		if($("input").val() == ""){
-				  $('.list-stations').html('');
+			$('.list-stations').html('');
 		}else{
 		 // do the ajax call here
 			$.ajax({ 

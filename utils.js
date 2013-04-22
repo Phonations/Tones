@@ -1,10 +1,8 @@
 
 var crypto = require('crypto')
-  , salt = 'x8FsqCnMURG/cBuuBjqJMN4Ll/akxifULmg7MljWGyTDHOdw1NHzG'
-  , SHA2 = new (require('jshashes').SHA512)()
-  , User = require('./providers/user').User
   , Station = require('./providers/station').Station
-  , Tone = require('./providers/tone').Tone;
+  , Tone = require('./providers/tone').Tone
+  , User = require('./providers/user').User;
 
 /*
  * Restrict paths
@@ -18,7 +16,7 @@ exports.restrict = function(req, res, next){
 /*
  * Sort Case Insensitive
  */
-
+/*
 exports.encodePassword = function (pass) { 
 	if( typeof pass === 'string' && pass.length < 6 ) 
 		return ''
@@ -40,6 +38,32 @@ exports.caseInsensitiveSort = function (a, b) {
    if(a < b) ret = -1; 
 
    return ret;
+};
+
+/*
+ * add user
+ */
+
+
+exports.createUser = function (data, res, fn) { 
+  User.find({'email':data.email}).exec(function(err, users){
+    if(err) res.send({'error':'An error has occurred'});
+    if(users.length>0){
+      console.log('user found:'+users[0].username);
+      fn(users[0]);
+    }else{
+      var user = new User({
+        username:data.username,
+        email:data.email
+      });
+      user.password = user.encodePassword(data.password)
+      user.save(function(err, user){
+        if(err) res.send(config.message.valid);
+        console.log('user save:'+user);
+        fn(user);
+      });
+    }
+  });
 };
 
 
@@ -71,3 +95,28 @@ exports.createTone = function (data, fn) {
     }
   });
 };
+
+exports.getTones = function(data, fn){
+  var tones_id = [];
+  for(var i = 0; i < data.length; i++){
+    tones_id.push(data[i].id)
+    console.log('data[i].id:'+data[i].id);
+  }
+  Tone.find().where('_id').in(tones_id).exec(function(err, tones){
+    if(err) res.send({'error':'An error has occurred'});
+    console.log(tones.length+' tones found');
+    fn(tones);
+  })
+}
+
+exports.getUsers = function(data, fn){
+  var users_id = [];
+  for(var i = 0; i < data.length; i++){
+    users_id.push(data[i].id)
+  }
+  User.find().where('_id').in(users_id).exec(function(err, users){
+    if(err) res.send({'error':'An error has occurred'});
+    console.log(users.length+' users found');
+    fn(users);
+  })
+}

@@ -53,8 +53,8 @@ var currentVideoId;
       'enablejsapi' : '1',
       'playerapiid' : 'ytapiplayer',
       'version' : '3',
-      'width' : '960',
-      'height' : '540'
+      'width' : '620',
+      'height' : '360'
     };
   var methods = {
     init : function( options ) {
@@ -87,7 +87,7 @@ var currentVideoId;
 
       isPlaying = false;
 
-      playerStopped(currentVideoId);
+      playerStopped($('.player-wrap .tone').attr('id'));
 /*
       var nbVideos = $('.playlist li').length;
 
@@ -117,7 +117,7 @@ var currentVideoId;
         yt_loadVideo($(this).attr('id'), idVideo);
       }else{
         var params = { allowScriptAccess: "always"};
-        var atts = { id: options.playerapiid, class:"img-polaroid"};
+        var atts = { id: options.playerapiid, class:"img-rounded"};
         swfobject.embedSWF(options.url+idVideo+"?controls="+options.controls+"&showinfo="+options.showinfo+"&enablejsapi="+options.enablejsapi+"&playerapiid="+options.playerapiid+"&version="+options.version,
                                options.playerapiid, options.width, options.height, "8", null, null, params, atts);
       }

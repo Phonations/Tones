@@ -5,20 +5,16 @@
     init : function( users ) {
       var self = this;
       console.log('tusers init:');
-      listusers = users;
-      $(this).tusers('update');
-
-      $('#menu-users').bind("click", function(){
-          $('.search.list').css('display', 'none');
-          $('.comments.list').css('display', 'none');
-          $(self).css('display', 'block');
-      })
 
     },
 
     add : function (user){
       listusers.push(user);
       $(this).tusers('update');
+      var item = '<div class="connected-user" id="' + user.id + '">'
+                +'<a href="#" data-toggle="tooltip" title="'+.user.username+'">'
+                +'<img src="/images/avatar.jpg" width="40px" class="img-rounded avatar"/>'
+                +'</a></div>';
     },
 
     update : function (){
@@ -31,11 +27,16 @@
         if(idUSER == val.id){
           name += " (you)"
         }
-        var item = '<li id="' + val.id + '" class="item img-rounded">' 
+        /*var item = '<li id="' + val.id + '" class="item img-rounded">' 
                 +'<img src="/images/avatar.jpg" width="40px" height="40px" class="img-rounded">'
                 +'<div class="item_content">'
                 +'<h3 class="name">'+name+'</h6>'
-                +'<div></li>';
+                +'<div></li>';*/
+
+   var item = '<div class="connected-user" id="' + val.id + '">'
+              +'<a href="#" data-toggle="tooltip" title="'+name+'">'
+              +'<img src="/images/avatar.jpg" width="40px" class="img-rounded avatar"/>'
+              +'</a></div>';
         items.push(item);
 
       });

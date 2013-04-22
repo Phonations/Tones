@@ -6,10 +6,12 @@ var stationSchema = mongoose.Schema({
     id_user_create : String,
     users: Array,
     tones: Array,
+    tones_archives: Array,
     current: Number,
     nb_users: Number,
     nb_tones: Number
 });
+
 stationSchema.methods.addTone = function (tone_id, user_id, fn) {
 	// we add the id of the tone in the station
 	var tone={
@@ -57,6 +59,18 @@ stationSchema.methods.leave = function (user_id, fn) {
       var temp_id = this.users[i].id;
       if(user_id+'' === temp_id+''){
         this.users.splice(i, 1);
+        this.save();
+        return fn(); 
+      }
+    }
+}
+
+stationSchema.methods.archiveTone = function (tone_id, fn){
+    for(var i=0;i<this.tones.length;i++){
+      var temp_id = this.tones[i].id;
+      if(tone_id+'' === temp_id+''){
+        this.tones_archives.push(this.tones[i]);
+        this.tones.splice(i, 1);
         this.save();
         return fn(); 
       }

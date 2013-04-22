@@ -18,19 +18,22 @@ $(document).ready(function(){
 	$('#ytapiplayer').tplayer();
 	$('.list-search').tsearch();
   $('.playlist').tplaylist();
-  
-  var name = $('#nickname').html();
-  //var user = {'id':idUSER, 'name':name}
+  //$('.users').tusers();
+
   socket.emit('init');
 
   $('.connected-user a').tooltip();
-/* 
-  socket.on('ready', function (items, users) {
+
+  if($('.player-wrap .tone').attr('id')!=undefined){
+    $('#ytapiplayer').tplayer('playVideo', $('.player-wrap .tone').attr('yt_id'));
+  }
+  
+  /*socket.on('ready', function (items, users) {
     $('.users').tusers(users);
     for (var i = 0; i<items.length; i++){
      $('.playlist').tplaylist('add', items[i]);
     }
-  });
+  });*/
 
   socket.on('newUser', function (user) {
     console.log('newUser:'+user);
@@ -43,10 +46,12 @@ $(document).ready(function(){
   });
 
   socket.on('itemAdded', function (data) {
+    console.log('itemAdded:'+data.title);
     $('.playlist').tplaylist('add', data);
   });
 
   socket.on('playItem', function (idItem) {
+    console.log('playItem:'+idItem);
     $('#ytapiplayer').tplayer('playVideo', idItem);
   });
 
@@ -56,7 +61,7 @@ $(document).ready(function(){
 
   socket.on('chat', function (data) {
     //$('.comments').tcomments('chat', data);
-  });*/
+  });
 })
 
 // we centrilize the call to the socket here

@@ -55,15 +55,9 @@ app.get('/signup', function(req, res){
 });
 
 app.post('/signup', function(req, res){
-  var user = new User({
-    'username':req.body.username,
-    'email':req.body.email,
-    'password':utils.encodePassword(req.body.password)
-  });
 
-  user.save(function(err, user){
-    if(err) res.send({'error':'An error has occurred'});
-    user.speak();
+  utils.createUser(req.body, res, function(err, user){
+    if(err) res.send(config.message.valid);
     res.redirect('/');
   });
 });
@@ -116,11 +110,16 @@ app.post('/stations', utils.restrict, function(req, res){
  */ 
 app.get('/station/:id', utils.restrict, function(req, res){
   Station.findById(req.params.id).exec(function(err, station){
-    console.log('req.user._id:'+req.user._doc._id);
-    res.render('station', {
-      title: 'station - '+station.name,
-      user: req.user._doc,
-      station: station
+    utils.getUsers(station.users, function(users){
+      station.users = users
+      utils.getTones(station.tones, function(tones){
+        station.tones = tones
+        res.render('station', {
+          title: 'station - '+station.name,
+          user: req.user._doc,
+          station: station
+        });
+      });
     });
   });
 });
