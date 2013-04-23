@@ -16,7 +16,7 @@ var stationSchema = mongoose.Schema({
     nb_tones: Number
 });
 
-stationSchema.methods.addTone = function (tone_id, user_id, fn) {
+/*stationSchema.methods.addTone = function (tone_id, user_id, fn) {
 	// we add the id of the tone in the station
 	var tone={
 	  '_id':tone_id,
@@ -39,7 +39,34 @@ stationSchema.methods.addTone = function (tone_id, user_id, fn) {
 	}
 	this.save();
 	fn();
+}*/
+
+stationSchema.methods.addItemTone = function (itemTone, fn) {
+  // we add the id of the tone in the station
+  var iTones = {
+    '_id':itemTone._id,
+    'user_id':itemTone.user_id,
+    'tone_id':itemTone.tone_id
+  }
+  this.tones.push(iTones);
+  this.save();
+  // we remove a tone from the user that created it
+  for(var i=0;i<this.users.length;i++){
+    var temp_id = this.users[i].id;
+    if(itemTone.user_id+'' === temp_id+''){
+      if(this.users[i].nb_tones>0){
+        var user = {
+          "id":itemTone.user_id,
+          "nb_tones":this.users[i].nb_tones-1
+        }
+        this.users.splice(i, 1, user);
+      }
+    }
+  }
+  this.save();
+  fn();
 }
+
 
 stationSchema.methods.addMessage = function (message, fn) {
   this.messages.push(message);
@@ -95,7 +122,20 @@ stationSchema.methods.leave = function (user_id, fn) {
     }
 }
 
-stationSchema.methods.archiveTone = function (tone_id, fn){
+/*stationSchema.methods.archiveTone = function (tone_id, fn){
+    for(var i=0;i<this.tones.length;i++){
+      var temp_id = this.tones[i]._id;
+      if(tone_id+'' === temp_id+''){
+        var tone = this.tones[i];
+        this.archives.tones.push(tone);
+        this.tones.splice(i, 1);
+        this.save();
+        return fn(tone); 
+      }
+    }
+}*/
+
+stationSchema.methods.archiveItemTone = function (tone_id, fn){
     for(var i=0;i<this.tones.length;i++){
       var temp_id = this.tones[i]._id;
       if(tone_id+'' === temp_id+''){

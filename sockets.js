@@ -15,7 +15,8 @@ var parent = module.parent.exports
   , utils = require('./utils')
   , User = require('./providers/user').User
   , Station = require('./providers/station').Station
-  , Tone = require('./providers/tone').Tone;
+  , Tone = require('./providers/tone').Tone
+  , ItemTone = require('./providers/tone').ItemTone;
 
 
 var io = sio.listen(server);
@@ -66,11 +67,18 @@ io.sockets.on('connection', function (socket) {
     utils.createTone(data, function(tone_id){
       console.log('tone '+tone_id+' has been createTone');
       Station.findById(station_id).exec(function(err, station){
-        station.addTone(tone_id, user._id, function(){
-          data._id = tone_id;
-          console.log('tone '+data.title+' has been added in station '+station_id);
-          data.user = user;
-          io.sockets.in(station_id).emit('newItem', data);
+        var itemTone = new ItemTone({
+          'tone_id':tone_id,
+          'user_id':user._id
+        });
+        itemTone.save(function(err, itemTone){
+          if(err) console.log("something when wrong the ItemTone didn't save");
+          station.addItemTone(itemTone, function(){
+            data._id = itemTone._id;
+            console.log('tone '+data.title+' has been added in station '+station_id);
+            data.user = user;
+            io.sockets.in(station_id).emit('newItem', data);
+          });
         });
       });
     })
@@ -79,11 +87,11 @@ io.sockets.on('connection', function (socket) {
   socket.on('playerStopped', function  (tone_id) {
     console.log('playerStopped:'+tone_id);
     Station.findById(station_id).exec(function(err, station){
-      station.archiveTone(tone_id, function(tone){
+      station.archiveItemTone(tone_id, function(tone){
         io.sockets.in(station_id).emit('removeItem', tone);
         console.log('playerStopped station.tones.length:'+station.tones.length);
         if(station.tones.length>0){
-          Tone.findById(station.tones[0]._id).exec(function(err, data){
+          Tone.findById(station.tones[0].tone_id).exec(function(err, data){
             io.sockets.in(station_id).emit('playItem', data.id);
           });
         }

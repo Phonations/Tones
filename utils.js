@@ -95,7 +95,7 @@ exports.createTone = function (data, fn) {
 /**
 * function getTones(data, fn)
 ** parameters 
-data  : Array([{id:ObjectId, user_id:ObjectId}, ...])
+data  : Array([{_id:ObjectId, tone_id:ObjectId, user_id:ObjectId}, ...])
 fn    : callback
 
 ** return 
@@ -121,7 +121,7 @@ exports.getTones = function(data, fn){
   var users_id = [];
   var tempusers_id = [];
   for(var i = 0; i < data.length; i++){
-    tones_id.push(data[i]._id)
+    tones_id.push(data[i].tone_id)
     var user_id = data[i].user_id;
     tempusers_id[user_id] = user_id;
   }
@@ -145,6 +145,8 @@ exports.getTones = function(data, fn){
           "username" : tempusers_id[data[i].user_id]
         }
         tones[i].user = user;
+        tones[i]._id = data[i]._id;
+        console.log(tones._id+'-'+data[i]._id);
       }
       fn(tones);
     })
