@@ -94,11 +94,12 @@ exports.createTone = function (data, fn) {
 
 /**
 * function getTones(data, fn)
-* data  : Array([{id:ObjectId, user_id:ObjectId}, ...])
-* fn    : callback
-*
-* return 
-* tones : Array([
+** parameters 
+data  : Array([{id:ObjectId, user_id:ObjectId}, ...])
+fn    : callback
+
+** return 
+tones : Array([
   {
     _id:ObjectId,
     id:String,
@@ -120,7 +121,7 @@ exports.getTones = function(data, fn){
   var users_id = [];
   var tempusers_id = [];
   for(var i = 0; i < data.length; i++){
-    tones_id.push(data[i].id)
+    tones_id.push(data[i]._id)
     var user_id = data[i].user_id;
     tempusers_id[user_id] = user_id;
   }
@@ -152,11 +153,19 @@ exports.getTones = function(data, fn){
 
 /**
 * function getMessages(data, fn)
-* data  : Array([{message:String, user:{_id:ObjectId}, ...])
-* fn    : callback
-*
-* return 
-* tones : Array([
+** parameters 
+data  : Array([
+  {
+    message:String, 
+    user:
+    {
+      _id:ObjectId
+    }
+  }, ...])
+fn    : callback
+
+** return 
+tones : Array([
   {
     message:String,
     User : {
@@ -165,8 +174,6 @@ exports.getTones = function(data, fn){
     }
   }, ...
 ])  
-
- This function get all objects Tones from toneProvider and also get the associated username linked to the tone from the entry Array data
 */
 exports.getMessages = function(data, fn){
   var users_id = [];
@@ -199,6 +206,23 @@ exports.getMessages = function(data, fn){
   })
 }
 
+/**
+* function getUsers(data, fn)
+** parameters 
+data  : Array([{id:ObjectId, nb_tones:Number}, ...])
+fn    : callback
+
+** return 
+users : Array([
+  {
+    _id:ObjectId,
+    username:String
+    email:String
+    password:String
+  }, ...
+])  
+*/
+
 exports.getUsers = function(data, fn){
   var users_id = [];
   for(var i = 0; i < data.length; i++){
@@ -209,4 +233,44 @@ exports.getUsers = function(data, fn){
     //console.log(users.length+' users found');
     fn(users);
   })
+}
+/**
+* function getUsers(data, fn)
+** parameters 
+user  : {
+    _id:ObjectId,
+    username:String
+    email:String
+    password:String
+  }
+station  : cf provider/station
+
+** return 
+user  : {
+    _id:ObjectId,
+    username:String
+    email:String
+    password:String
+    nb_tones:Number
+  }
+*/
+
+exports.getUserInfo = function(user, station, fn){
+  var user_id = user._id;
+  for(var i=0;i<station.archives.users.length;i++){
+    var temp_id = station.archives.users[i].id;
+    if(user_id+'' === temp_id+''){
+      user.nb_tones = station.archives.users[i].nb_tones;
+      return fn(user); 
+    }
+  }
+  for(var i=0;i<station.users.length;i++){
+    var temp_id = station.users[i].id;
+    if(user_id+'' === temp_id+''){
+      user.nb_tones = station.users[i].nb_tones;
+      return fn(user); 
+    }
+  }
+  user.nb_tones = station.nb_tones;
+  return fn(user); 
 }

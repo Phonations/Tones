@@ -77,11 +77,13 @@ io.sockets.on('connection', function (socket) {
   });
 
   socket.on('playerStopped', function  (tone_id) {
-    io.sockets.in(station_id).emit('removeItem', tone_id);
+    console.log('playerStopped:'+tone_id);
     Station.findById(station_id).exec(function(err, station){
-      station.archiveTone(tone_id, function(){
+      station.archiveTone(tone_id, function(tone){
+        io.sockets.in(station_id).emit('removeItem', tone);
+        console.log('playerStopped station.tones.length:'+station.tones.length);
         if(station.tones.length>0){
-          Tone.findById(station.tones[0].id).exec(function(err, data){
+          Tone.findById(station.tones[0]._id).exec(function(err, data){
             io.sockets.in(station_id).emit('playItem', data.id);
           });
         }

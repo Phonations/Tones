@@ -106,17 +106,20 @@ app.post('/stations', utils.restrict, function(req, res){
  * on this page the user can create station or search for a station
  */ 
 app.get('/station/:id', utils.restrict, function(req, res){
+  console.log('/station/'+req.params.id)
   Station.findById(req.params.id).exec(function(err, station){
-    utils.getUsers(station.users, function(users){
-      station.users = users
-      utils.getTones(station.tones, function(tones){
-        station.tones = tones
-        utils.getMessages(station.messages, function(messages){
-          station.messages = messages
-          res.render('station', {
-            title: 'station - '+station.name,
-            user: req.user._doc,
-            station: station
+    if(err) res.send({'error':'An error has occurred'});
+    utils.getUserInfo(req.user._doc, station, function(user){
+      utils.getUsers(station.users, function(users){
+        station.users = users
+        utils.getTones(station.tones, function(tones){
+          station.tones = tones
+          utils.getMessages(station.messages, function(messages){
+            res.render('station', {
+              title: 'station - '+station.name,
+              user: user,
+              station: station
+            });
           });
         });
       });

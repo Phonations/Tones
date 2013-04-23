@@ -18,6 +18,7 @@ $(document).ready(function(){
   $('.playlist').tplaylist();
   $('.users').tusers();
   $('.messages').tmessages();
+  $('.user-info').tuser();
 
   socket.emit('init');
 
@@ -47,8 +48,15 @@ $(document).ready(function(){
     $('#ytapiplayer').tplayer('playVideo', idItem);
   });
 
-  socket.on('removeItem', function (idItem) {
-    $('.playlist').tplaylist('remove', idItem);
+  socket.on('removeItem', function (data) {
+    console.log('removeItem '+ data._id);
+    console.log("$('.user-info').attr('id') "+ $('.user-info').attr('id'));
+    console.log("data.user_id "+ data.user_id);
+
+    if(data.user_id == $('.user-info').attr('id')){
+      $('.user-info').tuser('addStar');
+    }
+    $('.playlist').tplaylist('remove', data._id);
   });
 
   socket.on('newMessage', function (data) {
@@ -61,6 +69,7 @@ function addItem(data){
   console.log ('addItem')
   socket.emit('addItem',data);
   $('.list-search').tsearch('hide');
+  $('.user-info').tuser('removeStar');
 }
 function playerStopped(idItem){
   console.log ('playerStopped')

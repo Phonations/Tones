@@ -69,7 +69,9 @@ $(document).ready(function(){
 	});
 
 
-	$('#submit_create').bind("click", submit_create);
+	$('#submit_create').bind("click", function(){
+		submit_create()
+	});
 
 	var submit_create = function(){
 		console.log('click '+$(this).attr('id'));
