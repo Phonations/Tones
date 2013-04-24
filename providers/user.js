@@ -3,6 +3,7 @@ var mongoose = require('mongoose')
   , SHA2 = new (require('jshashes').SHA512)();
 
 var userSchema = mongoose.Schema({
+    fullname: String,
     username: String,
     email: String,
     password: String

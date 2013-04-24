@@ -6,7 +6,7 @@ var toneSchema = mongoose.Schema({
   thumb:String,
   title:String,
   category:String,
-  duration:String,
+  duration:String
 });
 
 var Tone = mongoose.model('Tone', toneSchema);

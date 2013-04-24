@@ -8,47 +8,58 @@ body {
 ul{padding:0;margin:0;}
 p{margin-bottom:5px;}
 .clear{clear:both;}
-
-.front-card {
-	top: 50%;
-	height: 328px;
-	position:absolute;
-	margin-top:-154px;
-}
-.front-welcome {
-	height: 328px;
-}
-.front-welcome-text {
-	bottom: 50%;
-	position:absolute;
-}
-.front-signup-text {
-	padding:10px;
-	margin:0;
-	border-bottom:1px solid #EFEFEF
-}
-
-.front-signin, .front-signup {
-	background: #FFFFFF;
-	margin-bottom:10px;
-}
-.front-container-full-signup .front-welcome-text {
-	padding: 0;
-	bottom: 50%;
-}
-
 .float-right{float:right;}
+.border-bottom {border-bottom:1px solid #EFEFEF}
+/* Navigation*/
+body > .navbar .brand {
+padding-right: 0;
+padding-left: 0;
+margin-left: 20px;
+font-weight: bold;
+color: #000;
+text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+-webkit-transition: all .2s linear;
+-moz-transition: all .2s linear;
+transition: all .2s linear;
+}
+/* Index */
+.front-card {top: 50%;height: 328px;position:absolute;margin-top:-174px;left: 50%;margin-left:-320px;width: 640px;}
+.front-welcome-text {margin-bottom: 10px;}
+.front-welcome-text h3{line-height: 10px}
+.front-signup-text {padding:10px;margin:0;border-bottom:1px solid #EFEFEF}
+.front-signin, .front-signup {background: #FFFFFF;margin-bottom:10px;}
+.front-container-full-signup .front-welcome-text {padding: 0;bottom: 50%;}
 
-.front-card form {padding:10px;margin:0;}
-.front-card input[type="text"],
-.front-card input[type="password"]{width:266px;}
-.front-signin input.password{width:192px; margin-right:5px;}
+.index .front-card form {padding:10px;margin:0;}
+.index .front-card input[type="text"],
+.index .front-card input[type="password"]{width:266px;}
+.index .front-signin input.password{width:192px; margin-right:5px;}
 
 .front-card .form-horizontal .control-group {margin-bottom: 5px;}
 .front-card .form-horizontal .controls {margin-left: 0px;}
 
+.social-connect{margin-left:10px;margin-bottom:5px;margin-top: 14px;}
+a.sb{margin-bottom:5px;}
+a.sb.sb-small i{ width: auto; height: auto; }
+.icon-twitter{ font-size: 15px; padding: 5px;}
+.icon-facebook{ font-size: 15px; padding: 5px 10px;}
+.social-connect a:hover{text-decoration: none }
 
-
+/* Common */
+.login.container,
+.profile.container,
+.station.container {margin-top:50px;position:relative;}
+/* Login */
+.login .alert{width:300px;margin-bottom:0;}
+.help-inline .error,
+.help-inline .success,
+.help-inline .required,
+.help-inline .exist
+{display:none;}
+.help-inline .error,
+.help-inline .required,
+.help-inline .exist{color:#c33}
+.help-inline .success{color:#390}
 /*
 .signup, .login{margin-top:50px;padding:50px 0;}
 .login input, 
@@ -57,24 +68,56 @@ p{margin-bottom:5px;}
 .login .alert{width:167px;}
 
 */
+
 .home.container{margin-top:60px;}
 .home h3{margin:0;}
 .home input{font-size: 25px;height: auto;line-height: 30px;padding: 5px 15px;}
-.home form {margin-bottom: 0}
+.home form {margin-bottom: 0}*/
 
 /* homepage */
 .nav-stacked > li {cursor: pointer;}
 .nav-stacked > li > a {	background-color: #fff;}
 .nav-stacked > li > a > small.text-right{float: right;color: #999;}
 
+
+/* profile page*/
+.span12 {width:930px;margin-left:5px !important;}
+.hero-img {height:250px;overflow:hidden;}
+.header .module-inner{position:relative;}
+.header .avatar{position:absolute;top:-65px;}
+.header h3{line-height:10px;margin-left:110px;float:left;}
+.header .user-infos{border-top:1px solid #EFEFEF;}
+
+.float-right{float:right;}
+
+.nav-list > li > a > .icon-chevron-right {float: right;margin-top: 0px;margin-right: -6px;opacity: .25;}
+.nav-list > li > a {color: #121212;	padding: 10px 15px;border-bottom:1px solid #EFEFEF;cursor: pointer}
+.nav-list > li.active > a,
+.nav-list > li.active > a:hover {background-color: #3a87ad;	color: #fff;cursor: default}
+
+.nav-list > li.active > a  > .icon-chevron-right {opacity: 1;}
+.nav-list > li.last > a {border-bottom:none;}
+.profile-sidenav strong{margin-left:10px;}
+
+.module-title .btn-small.float-right{margin-top:-5px;margin-right:-5px;}
+.module-title .icon-chevron-down.float-right,
+.module-title .icon-chevron-up.float-right{
+	padding: 12px;
+	border-left: 1px solid #efefef;
+	margin-top: -10px;
+	margin-right: -10px;
+	margin-left: 15px;
+}
+
+.item-station {position:relative;border-bottom:1px solid #EFEFEF}
+.item-station img {float:left;width:65px;height:auto;}
+.item-station .station-text {margin-left:75px;}
+.item-station .btn {position:absolute; bottom:10px;right:10px;}
 /* station page*/
 
+[class*="span"] {margin-left:10px;}
 
-.container.station {margin-top:40px;position:relative;background-color: rgba(255,255,255,0.3);min-height:1000px;}
-
-.container.station [class*="span"] {margin-left:10px;}
-
-.container.station .left-column{margin-left:5px;}
+.left-column{margin-left:5px;}
 .nav-station .search-query{margin-left:287px;}
 .nav-station {z-index:1042;}
 

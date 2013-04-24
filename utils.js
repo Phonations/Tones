@@ -45,20 +45,33 @@ exports.caseInsensitiveSort = function (a, b) {
  */
 
 
-exports.createUser = function (data, res, fn) { 
-  User.find({'email':data.email}).exec(function(err, users){
-    if(err) res.send({'error':'An error has occurred'});
+exports.createUser = function (data, fn) { 
+
+  //first we double test if the username already exist
+  User.find({'username':data.username}).exec(function(err, users){
+    if(err) fn(true, null)
     if(users.length>0){
-      fn(users[0]);
+      fn(true, null)
     }else{
-      var user = new User({
-        username:data.username,
-        email:data.email
-      });
-      user.password = user.encodePassword(data.password)
-      user.save(function(err, user){
-        if(err) res.send(config.message.valid);
-        fn(user);
+      // Hoorah the username doesn't exist
+      // lets check if the email exist 
+      User.find({'email':data.email}).exec(function(err, users){
+        if(err) fn(true, null)
+        if(users.length>0){
+          fn(true, null)
+        }else{
+          // Hoorah the email doesn't exist
+          var user = new User({
+            fullname:data.fullname,
+            username:data.username,
+            email:data.email
+          });
+          user.password = user.encodePassword(data.password)
+          user.save(function(err, user){
+            if(err) fn(true, null)
+            fn(false, user);
+          });
+        }
       });
     }
   });

@@ -2,24 +2,88 @@ extends layout
 
 block content
   script(type='text/javascript', src='/javascripts/signup.js')
-  div.container
-    form(action='/signup', method='post').form-horizontal.signup.img-polaroid.span6
-     div.control-group.username
-      label.control-label(for="username") Username
-      div.controls
-       input#username(type="text", name="username", placeHolder="Username")
-     div.control-group.email
-      label.control-label(for="email") Email
-      div.controls
-       input#email(type="text", name="email", placeHolder="Email")
-     div.control-group.password
-      label.control-label(for="password") Password
-      div.controls
-       input#password(type="password", name="password", placeHolder="Password")
-     div.control-group.confirm
-      label.control-label(for="confirm") Confirm Password
-      div.controls
-       input#confirm(type="password", name="confirm", placeHolder="Confirm Password")
-     div.control-group
-      div.controls
-       button(type='submit').btn Signup
+  include nav_nosignin
+  div.container.login
+    div.span12
+     div.module.img-rounded.front-signin
+      form(action='/signup', method='post').form-horizontal.signup.module-inner
+       div.control-group
+        div.controls
+         h3 #{title}
+         if (message!='')
+          div.alert.alert-warning
+           button.close(type="button", data-dismiss="alert") × 
+           | #{message}
+       div.control-group.fullname-group
+        label.control-label(for="fullname") Full name
+        div.controls
+         input(type="text", name="fullname", value="#{fullname}").fullname 
+         small.help-inline 
+          span Enter your first and last name.
+          span.error 
+           i.icon-remove
+           |  A name is required!
+          span.success 
+           i.icon-ok
+           |  Name looks great.
+       div.control-group.email-group
+        label.control-label(for="email") Email address
+        div.controls
+         input(type="text", name="email", value="#{email}").email
+         small.help-inline 
+          span What’s your email address?
+          span.error 
+           i.icon-remove
+           |  Doesn't look like a valid email.
+          span.required 
+           i.icon-remove
+           |  An email is required!
+          span.exist 
+           i.icon-remove
+           |  This email is already registered. Want to 
+           a(href='/login') login 
+           | or 
+           a(href='/forgot') recover your password?
+          span.success 
+           i.icon-ok
+           |  We will email you a confirmation.
+       div.control-group.password-group
+        label.control-label(for="password") Password
+        div.controls
+         input#password(type="password", name="password", value="#{password}").password 
+         small.help-inline 
+          span 6 characters or more! Be tricky.
+          span.error 
+           i.icon-remove
+           |  Password is too obvious.
+          span.required 
+           i.icon-remove
+           |  Password must be at least 6 characters.
+          span.success.more 
+           i.icon-ok
+           |  Password could be more secure.
+          span.success.okay  
+           i.icon-ok
+           |  Password is okay.
+          span.success.good 
+           i.icon-ok
+           |  Password is good.
+       div.control-group.username-group
+        label.control-label(for="username") Username
+        div.controls
+         input(type="text", name="username", placeHolder="").username
+         input(type="hidden", name="from", value="signup")
+         small.help-inline 
+          span Don't worry, you can change it later.
+          span.error 
+           i.icon-remove
+           |  This username is already taken!
+          span.required 
+           i.icon-remove
+           |  A username is required! You can change it later.
+          span.success 
+           i.icon-ok
+           |  Username is available. You can change it later.
+       div.control-group
+        div.controls
+         button(type='submit').btn.btn-large.btn-warning Create my account

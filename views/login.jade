@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/javascripts/login.js')
+  include nav_nosignin
+  div.container.login
+    div.span12
+     div.module.img-rounded.front-signin
+      form(action='/login', method='post').form-horizontal.signup.module-inner.border-bottom
+       div.control-group
+        div.controls
+         h3 #{title}
+         if (message!='')
+          div.alert.alert-error
+           button.close(type="button", data-dismiss="alert") × 
+           | #{message}
+       div.control-group
+        label.control-label(for="email") Email
+        div.controls
+         input(type="text", name="email", placeHolder="Email").email
+       div.control-group
+        label.control-label(for="password") Password
+        div.controls
+         input(type="password", name="password", placeHolder="Password").password
+       div.control-group.password
+        div.controls
+         p Forgot your 
+          a(href="/forgot") password
+          |  ?
+       div.control-group
+        div.controls
+         button(type='submit').btn.btn-large.btn-info Sign In
+      div.form-horizontal
+       div.control-group
+        div.controls
+         p New to PublicTones? 
+          a(href="/signup") Sign up now »
