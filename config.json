@@ -17,6 +17,9 @@
   "app": {
     "port": 3333
   },
+  "theme": {
+    "name" : "default"
+  },
   "message": {
     "valid": true,
     "login_invalid": "invalid e-mail address or password",

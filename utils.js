@@ -180,7 +180,7 @@ data  : Array([
 fn    : callback
 
 ** return 
-tones : Array([
+messages : Array([
   {
     message:String,
     User : {
@@ -246,11 +246,14 @@ exports.getUsers = function(data, fn){
   User.find().where('_id').in(users_id).exec(function(err, users){
     if(err) res.send({'error':'An error has occurred'});
     //console.log(users.length+' users found');
+    for(var i = 0; i < users.length; i++){
+      users[i].password = '';
+    }
     fn(users);
   })
 }
 /**
-* function getUsers(data, fn)
+* function getUserInfo(user, station, fn)
 ** parameters 
 user  : {
     _id:ObjectId,
@@ -270,7 +273,7 @@ user  : {
   }
 */
 
-exports.getUserInfo = function(user, station, fn){
+exports.getUserInfoInStation = function(user, station, fn){
   var user_id = user._id;
   for(var i=0;i<station.archives.users.length;i++){
     var temp_id = station.archives.users[i].id;
@@ -288,4 +291,151 @@ exports.getUserInfo = function(user, station, fn){
   }
   user.nb_tones = station.nb_tones;
   return fn(user); 
+}
+
+/**
+* function getStation(req, res, fn)
+** parameters 
+req.params.id  : station_id
+req.user._doc : user
+
+** return 
+station  : {
+    title: String,
+    id_user_create : String,
+    users : Array([
+      {
+        _id:ObjectId,
+        username:String
+        email:String
+        password:String
+      }, ...
+    ]), 
+    tones : Array([
+      {
+        _id:ObjectId,
+        id:String,
+        thumb:String,
+        title:String,
+        category:String,
+        duration:String,
+        User : {
+          id:ObjectId, 
+          username:String
+        }
+      }, ...
+    ])  
+    archives: {
+      users: Array,
+      tones: Array
+    },
+    messages : Array([
+      {
+        message:String,
+        User : {
+          id:ObjectId, 
+          username:String
+        }
+      }, ...
+    ])
+    current: Number,
+    nb_users: Number,
+    nb_tones: Number
+  }
+
+user : {
+    fullname: String,
+    username: String,
+    email: String,
+    nm_tones: Number
+};
+
+*/
+
+exports.getStation = function(req, res, fn){
+  Station.findById(req.params.id).exec(function(err, station){
+    if(err) res.send({'error':'An error has occurred'});
+    // first we get the update the user info in the station
+    exports.getUserInfoInStation(req.user._doc, station, function(user){
+      // second we get the detail list of users
+      exports.getUsers(station.users, function(users){
+        station.users = users;
+        // third we get the detail list of tones
+        exports.getTones(station.tones, function(tones){
+          station.tones = tones;
+          // fourth we get the detail list of messages
+          exports.getMessages(station.messages, function(messages){
+            fn(station, user);
+          });
+        });
+      });
+    });
+  });
+}
+
+exports.getStation2 = function(req, res, fn){
+  User.find({'username':req.params.username}).exec(function(err, users){
+    if(err) res.send({'error':'1. An error has occurred'});
+    Station.find({'url':req.params.title, 'id_user_create':users[0]._id}).exec(function(err, stations){
+      if(err) res.send({'error':'An error has occurred'});
+      // first we get the update the user info in the station
+      station = stations[0];
+      console.log('station:'+station.title)
+      exports.getUserInfoInStation(req.user._doc, station, function(user){
+        // second we get the detail list of users
+        exports.getUsers(station.users, function(users){
+          station.users = users;
+          // third we get the detail list of tones
+          exports.getTones(station.tones, function(tones){
+            station.tones = tones;
+            // fourth we get the detail list of messages
+            exports.getMessages(station.messages, function(messages){
+              fn(station, user);
+            });
+          });
+        });
+      });
+    });
+  });
+}
+
+/**
+* function getStationDetails(station_id, req, res, fn)
+** parameters 
+req.params.id  : station_id
+req.user._doc : user
+
+** return 
+*/
+exports.getStationDetails = function(station_id, req, res, fn){
+  Station.find({'_id':station_id}).exec(function(err, stations){
+    if(err){
+      fn('');
+    }else{
+      if(stations.length>0){
+        // user is in a station
+        var station = stations[0];
+        // if the is track in the playlist
+        if(station.tones.length>0){
+          // we need the title of the current track
+          Tone.find({'_id':station.tones[0].tone_id}).exec(function(err, tones){
+            if(tones.length>0){
+              station.tones[0] = tones[0];
+              console.log('Currently watching "'+station.tones[0].title+'" on '+station.title+' station with '+station.users.length+' others');
+              fn(station);
+            }else{
+              console.log('is on '+station.title+' station with no tracks');
+              fn(station);
+            }
+          });
+        }else{
+          console.log('is on '+station.title+' station with no tracks');
+          fn(station);
+        }
+      }else{
+        console.log('has no current Station');
+        fn('');
+      }
+    }
+  });
 }

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  script(type='text/javascript', src='/javascripts/home.js')
+  script(type='text/javascript', src='/themes/default/javascripts/home.js')
   include nav
   div.container.home
    dir.row 
@@ -14,7 +14,7 @@ block content
       ul.nav.nav-tabs.nav-stacked
        - each station,index in stations	
         li(id="#{station._id}") 
-         a #{station.name}
+         a #{station.title}
           small.text-right #{station.users.length} users connected
     div.span1
      h3.text-center or

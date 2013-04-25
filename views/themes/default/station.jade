@@ -16,15 +16,15 @@ block content
   div.container.station
    div.span4.left-column
     div.module.img-rounded
-     include user_info
+     include station_inc/user_info
     div.module.img-rounded.users
-     include connected_users
+     include station_inc/connected_users
     div.module.img-rounded.messages
-     include tone_messages
+     include station_inc/tone_messages
    div.span8 
     div.module.img-rounded
      div.module-inner 
-      h1 #{station.name}
+      h1 #{station.title}
     div.module.img-rounded.player-wrap
      div#ytapiplayer.player
       div.inner-player There is no videos in the playlist, use the search to add videos in the  playlist!
@@ -33,11 +33,11 @@ block content
       strong  Now playing 
      if station.tones.length > 0 
       - var tone = station.tones[0]
-       include tone_item
+       include station_inc/tone_item
      else
        div.tone.module-inner
         p there is no music on the playlist
     div.module.img-rounded.playlist
-     include tone_playlist 
+     include station_inc/tone_playlist 
    div.list-search.span6
   

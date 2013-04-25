@@ -72,7 +72,7 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .home.container{margin-top:60px;}
 .home h3{margin:0;}
 .home input{font-size: 25px;height: auto;line-height: 30px;padding: 5px 15px;}
-.home form {margin-bottom: 0}*/
+.home form {margin-bottom: 0}
 
 /* homepage */
 .nav-stacked > li {cursor: pointer;}
@@ -113,6 +113,7 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .item-station img {float:left;width:65px;height:auto;}
 .item-station .station-text {margin-left:75px;}
 .item-station .btn {position:absolute; bottom:10px;right:10px;}
+.item-station a {cursor:pointer;}
 /* station page*/
 
 [class*="span"] {margin-left:10px;}

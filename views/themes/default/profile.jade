@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/javascripts/profile.js')
+  include nav
+  div.container.profile
+   div.span12.header
+    include profile_inc/header
+   div.span3.left-column
+    include profile_inc/leftnav
+   div.span9
+    include profile_inc/stations
+  include modal_create

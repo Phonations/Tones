@@ -30,7 +30,7 @@ io.set('authorization', function (hsData, accept) {
       if(err || !session) {
         return accept('Error retrieving session!', false);
       }
-
+      
       hsData.tones = {
         user: session.passport.user._doc,
         station: /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
@@ -54,7 +54,11 @@ io.sockets.on('connection', function (socket) {
   socket.join(station_id);
   io.sockets.in(station_id).emit('newUser', user);
   Station.findById(station_id).exec(function(err, station){
-    station.enter(user._id, function(){});
+    User.findById(user._id).exec(function(err, currentuser){
+      currentuser.setCurrentStation(station_id, function(){
+        station.enter(user._id, function(){});
+      });
+    });
   });
 
 
@@ -112,14 +116,20 @@ io.sockets.on('connection', function (socket) {
       });
     });
   });
+
   /**
   * when a user disconnect
   */
+
   socket.on('disconnect', function  () {
     Station.findById(station_id).exec(function(err, station){
-      station.leave(user._id, function(){
-        //console.log('user '+user.username+' leave the room:'+station_id);
-        io.sockets.in(station_id).emit('removeUser', user);
+      User.findById(user._id).exec(function(err, currentuser){
+        currentuser.unsetCurrentStation(function(){
+          station.leave(user._id, function(){
+            //console.log('user '+user.username+' leave the room:'+station_id);
+            io.sockets.in(station_id).emit('removeUser', user);
+          });
+        });
       });
     });
   });

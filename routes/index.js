@@ -17,7 +17,7 @@ var app = module.parent.exports.app
  */
 app.get('/', function(req, res, next){
   if(req.isAuthenticated()){
-    res.redirect('/home');
+    res.redirect('/'+req.user._doc.username);
   } else{
     res.render('index', { title: 'PublicTones'});
   }
@@ -49,6 +49,10 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+app.post('/forgot', function(req, res){
+  //TODO: we need to add the forgot
+  res.redirect('/');
+})
 
 /*
  * GET signup page.
@@ -88,8 +92,20 @@ app.post('/signup', function(req, res){
           message: config.message.signup_error
         });
       }
-      res.redirect('/signup-login');
-      /*passport.authenticate('local', {
+
+      //TODO: we need to verify the email
+
+      passport.authenticate('local', function(err, user, info) {
+        if (err) { return console.log(err); }
+        if (!user) { return res.redirect('/login'); }
+        req.logIn(user, function(err) {
+          if (err) { return console.log(err); }
+          return res.redirect('/home');
+        });
+      })(req, res);
+
+      /*res.redirect('/signup-login');
+      passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login-failure'
       })*/
@@ -143,8 +159,9 @@ app.get('/home', utils.restrict, function(req, res){
 
 app.post('/create-station', utils.restrict, function(req, res){
   var station = new Station({
-    'name':req.body.name,
-    'id_user_create':req.user._id,
+    'title':req.body.title,
+    'url':req.body.title.replace(/\s+/g, '-').toLowerCase(),
+    'id_user_create':req.user._doc._id+'',
     'nb_users':req.body.nb_users,
     'nb_tones':req.body.nb_tones,
     'current': 0
@@ -158,7 +175,7 @@ app.post('/create-station', utils.restrict, function(req, res){
 
 app.post('/stations', utils.restrict, function(req, res){
   var regex = new RegExp(req.body.search, 'i');
-  Station.find({'name':regex}).limit(10).exec(function(err, stations){
+  Station.find({'title':regex}).limit(10).exec(function(err, stations){
     if(err) res.send({'error':'An error has occurred'});
     res.send(stations);
   });
@@ -168,34 +185,69 @@ app.post('/stations', utils.restrict, function(req, res){
 
 /*
  * GET station page.
- * on this page the user can create station or search for a station
+ * this is the station page 
  */ 
 app.get('/station/:id', utils.restrict, function(req, res){
-  console.log('/station/'+req.params.id);
-  Station.findById(req.params.id).exec(function(err, station){
-    if(err) res.send({'error':'An error has occurred'});
-    utils.getUserInfo(req.user._doc, station, function(user){
-      utils.getUsers(station.users, function(users){
-        station.users = users;
-        utils.getTones(station.tones, function(tones){
-          station.tones = tones;
-          utils.getMessages(station.messages, function(messages){
-            res.render('station', {
-              title: 'station - '+station.name,
-              user: user,
-              station: station
-            });
-          });
-        });
-      });
+  utils.getStation(req, res, function(station, user){
+    res.render('station', {
+      title: 'station - '+station.title,
+      user: user,
+      station: station
     });
   });
 });
-
-
-app.get('/:id', utils.restrict, function(req, res){
-  res.render('profile', {
-    title: req.params.id,
-    username: req.user._doc.username
+/*
+ * GET profile page.
+ * this is the profile page 
+ */ 
+app.get('/:username', utils.restrict, function(req, res){
+  // first we get the user
+  User.find({'username':req.params.username}).exec(function(err, users){
+    if(err) res.send({'error':'1. An error has occurred'});
+    if(users.length>0){
+      // second we get the stations the user created
+      var user_profile = users[0];
+      Station.find({'id_user_create':users[0]._id}).exec(function(err, stations){
+        if(err) res.send({'error':'2. An error has occurred'});
+        user_profile.stations = stations;
+        // third we get the current station of the user connected
+        utils.getStationDetails(user_profile.current_station, req, res, function(station){
+          user_profile.station = station;
+          res.render('profile', {
+            title: user_profile.username,
+            user_profile: user_profile,
+            user: req.user._doc
+          });
+        });
+      });
+    }else{
+      res.redirect('/'+req.user._doc.username);
+    }
   });
 });
+
+/*
+ * GET station page.
+ * this is the station page 
+*/
+app.get('/:username/s/:title', utils.restrict, function(req, res){
+  /*switch(req.params.username){
+    case 'javascripts':
+    case 'font':
+    case 'images':
+    case 'stylessheets':
+    case 'socket.io':
+      app.set('/'+req.params.username+'/'+req.params.title);
+      break;
+    default:
+      console.log('/:username/:title : '+req.params.username+'/'+req.params.title);*/
+      utils.getStation2(req, res, function(station, user){
+        res.render('station', {
+          title: 'station - '+station.title,
+          user: user,
+          station: station
+        });
+      });
+ // }
+});
+

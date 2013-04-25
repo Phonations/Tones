@@ -2,7 +2,8 @@ var mongoose = require('mongoose')
   , utils = require('../utils');
 
 var stationSchema = mongoose.Schema({
-    name: String,
+    title: String,
+    url: String,
     id_user_create : String,
     users: Array,
     tones: Array,

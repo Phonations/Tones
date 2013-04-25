@@ -5,9 +5,9 @@ $(document).ready(function(){
 	})
 
 	/*$('input.typeahead').typeahead({                                
-		name: 'station',                                                          
+		title: 'station',                                                          
 		remote: '/stations.json',
-		template: '<p><strong>{{name}}</strong></p>',
+		template: '<p><strong>{{title}}</strong></p>',
     	engine: Hogan
 	});*/
 
@@ -27,8 +27,8 @@ $(document).ready(function(){
 				  var items = [];
 				 
 				  $.each(data, function(key, station) {
-				    items.push('<li id="' + station._id + '"><a>' + station.name + '<small class="text-right">'+station.users.length+' users connected</small></a></li>');
-				    //items.push('<li id="' + station._id+'"><a><h4>'+ station.name+'</h4><p><small>'+station.users.length+'users connected</small></p></a></li>';
+				    items.push('<li id="' + station._id + '"><a>' + station.title + '<small class="text-right">'+station.users.length+' users connected</small></a></li>');
+				    //items.push('<li id="' + station._id+'"><a><h4>'+ station.title+'</h4><p><small>'+station.users.length+'users connected</small></p></a></li>';
 				  });
 				 	
 				  $('.list-stations').html('');
@@ -77,9 +77,9 @@ $(document).ready(function(){
 		console.log('click '+$(this).attr('id'));
         var isValid = true;
 
-		if($('#name').val() == ''){
-			console.log('click '+$('.name').attr('class'));
-			$('.name').addClass('error');
+		if($('#title').val() == ''){
+			console.log('click '+$('.title').attr('class'));
+			$('.title').addClass('error');
 			isValid = false;
 		}
 
@@ -91,7 +91,7 @@ $(document).ready(function(){
 				data: str, 
 				success: function(data){ 
 					if(data.error == 0){
-						$('#name').val('');
+						$('#title').val('');
 						$('#create_modal').modal('hide');
 						window.location = '/station/'+data.message;
 					}else{

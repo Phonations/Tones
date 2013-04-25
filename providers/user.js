@@ -6,7 +6,8 @@ var userSchema = mongoose.Schema({
     fullname: String,
     username: String,
     email: String,
-    password: String
+    password: String,
+    current_station: String
 });
 
 
@@ -23,6 +24,18 @@ userSchema.methods.validPassword = function (password) {
   } else {
     return false;
   }
+}
+
+userSchema.methods.setCurrentStation = function (station_id, fn) {
+  this.current_station = station_id;
+  this.save();
+  fn();
+}
+
+userSchema.methods.unsetCurrentStation = function (fn) {
+  this.current_station = '';
+  this.save();
+  fn();
 }
 
 userSchema.methods.speak = function () {

@@ -21,7 +21,7 @@ function yt_loadVideo(playerId, videoId){
 function yt_playVideo(playerId) {
   ytplayer = document.getElementById(playerId);
   ytplayer.addEventListener("onStateChange", "onytplayerStateChange");
-  ytplayer.mute();
+  //ytplayer.mute();
   ytplayer.playVideo();
 }
 

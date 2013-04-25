@@ -1,0 +1,11 @@
+div.item-station.module-inner(id='#{station._id}')
+ img(src="/images/avatar.jpg")
+ div.station-text
+  p 
+   strong #{station.title}
+  p.muted #{station.users.length} users toning
+  p created by 
+   span.label.label-warning #{user_profile.username}
+  a(href="/#{user_profile.username}/s/#{station.url}")
+   button.btn.btn-info join
+ div.clear
