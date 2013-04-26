@@ -41,6 +41,7 @@ if(config.auth.twitter.consumerkey.length) {
     },
     function(token, tokenSecret, profile, done) {
       console.log(profile.provider+':'+profile.displayName+', '+profile.id);
+      //console.log('username:'+req.user._doc.username);
       return done(null, profile);
     }
   ));
@@ -54,6 +55,9 @@ if(config.auth.facebook.clientid.length) {
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile.provider+':'+profile.displayName+', '+profile.id);
+      for (var i =0;i<profile.emails.length; i++){
+        console.log(profile.emails[i].type+':'+profile.emails[i].value);
+      }
       return done(null, profile);
     }
   ));
