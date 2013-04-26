@@ -1,7 +1,10 @@
 
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , User = require('./providers/user').User;
+  , TwitterStrategy = require('passport-twitter').Strategy
+  , FacebookStrategy = require('passport-facebook').Strategy 
+  , User = require('./providers/user').User
+  , config = require('./config.json');
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -29,3 +32,29 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+
+if(config.auth.twitter.consumerkey.length) {
+  passport.use(new TwitterStrategy({
+      consumerKey: config.auth.twitter.consumerkey,
+      consumerSecret: config.auth.twitter.consumersecret,
+      callbackURL: config.auth.twitter.callback
+    },
+    function(token, tokenSecret, profile, done) {
+      console.log(profile.provider+':'+profile.displayName+', '+profile.id);
+      return done(null, profile);
+    }
+  ));
+} 
+
+if(config.auth.facebook.clientid.length) {
+  passport.use(new FacebookStrategy({
+      clientID: config.auth.facebook.clientid,
+      clientSecret: config.auth.facebook.clientsecret,
+      callbackURL: config.auth.facebook.callback
+    },
+    function(accessToken, refreshToken, profile, done) {
+      console.log(profile.provider+':'+profile.displayName+', '+profile.id);
+      return done(null, profile);
+    }
+  ));
+}

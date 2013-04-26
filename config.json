@@ -1,21 +1,21 @@
 {
   "auth": {
     "twitter": {
-      "consumerkey" : "yourConsumerKey",
-      "consumersecret" : "yourSecretKey",
-      "callback" : "http://127.0.0.1:6789/auth/twitter/callback"
+      "consumerkey" : "18rQVPHQPTcy73fTDEIwQQ",
+      "consumersecret" : "oyXgU0ZUhD9jADZfMFubouChbqoKwNzu6unlwuGyb0",
+      "callback" : "http://127.0.0.1:3333/auth/twitter/callback"
     },
     "facebook": {
-      "clientid" : "yourClientID",
-      "clientsecret" : "yourClientSecret",
-      "callback" : "http://127.0.0.1:6789/auth/facebook/callback"
+      "clientid" : "483671685031696",
+      "clientsecret" : "62aedf45bd24f2c389e6863e066996f0",
+      "callback" : "http://127.0.0.1:3333/auth/facebook/callback"
     }
   },
   "session" : {
     "secret" : "yourbestsecret"
   },
   "app": {
-    "port": 3334
+    "port": 3333
   },
   "theme": {
     "name" : "default"

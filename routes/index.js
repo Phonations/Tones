@@ -55,6 +55,33 @@ app.post('/forgot', function(req, res){
   res.redirect('/');
 })
 
+
+/*
+ * Authentication routes
+ */
+
+if(config.auth.twitter.consumerkey.length) {
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+
+  app.get('/auth/twitter/callback', 
+    passport.authenticate('twitter', {
+      successRedirect: '/',
+      failureRedirect: '/'
+    })
+  );
+}
+
+if(config.auth.facebook.clientid.length) {
+  app.get('/auth/facebook', passport.authenticate('facebook'));
+
+  app.get('/auth/facebook/callback', 
+    passport.authenticate('facebook', {
+      successRedirect: '/',
+      failureRedirect: '/'
+    })
+  );
+}
+
 /*
  * GET signup page.
  * when the user want to sign up for a new account
@@ -153,7 +180,7 @@ app.get('/home', utils.restrict, function(req, res){
     res.render('home', {
       title: 'home',
       stations: stations,
-      username: req.user._doc.username
+      username: req.user.displayName
     });
   });
 });
