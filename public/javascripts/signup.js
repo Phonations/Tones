@@ -81,6 +81,7 @@ $(document).ready(function(){
 			$(".email-group .required").css('display', 'none');
 			$(".email-group .error").css('display', 'none');
 			$(".email-group .success").css('display', 'none');
+			$(".email-group .exist").css('display', 'none');
 		}
 	});
 
@@ -163,20 +164,38 @@ $(document).ready(function(){
 			$(".username-group .success").css('display', 'none');
 		}
 	});
+	function init_signup(){
+		$("input.username").focus();
 
-	if($("input.fullname").val()!='')
-		validFullname();
-	if($("input.email").val()!='')
-		validEmail();
-	if($("input.password").val()!='')
-		validPassword();
+		if($("input.password").val()!=''){
+			validPassword();
+		}else{
+			$("input.password").focus();
+		}
+		if($("input.email").val()!=''){
+			validEmail();
+		}else{
+			$("input.email").focus();
+		}
+		if($("input.fullname").val()!=''){
+			validFullname();
+		}else{
+			$("input.fullname").focus();
+		}
+	}
 
+	init_signup();
 
 	$('form').submit(function() {
 		if(($(".fullname-group .success").css('display') == 'block')
 			&&($(".email-group .success").css('display') == 'block')
-			&&($(".password-group .success").css('display') == 'block')
+			&&(
+				($(".password-group .success.okay").css('display') == 'block')
+				||($(".password-group .success.good").css('display') == 'block')
+				||($(".password-group .success.more").css('display') == 'block')
+				)
 			&&($(".username-group .success").css('display') == 'block')){
+
 			if(!email_verify){
 				$.ajax({ 
 					type: "POST",
@@ -191,12 +210,16 @@ $(document).ready(function(){
 						}else{
 							$(".email-group .help-inline span").css('display', 'none');
 							$(".email-group .exist").css('display', 'block');
+							$("input.email").focus();
+							//init_signup();
 						}
 					}
 				});
+				//init_signup();
 				return false;
 			}
 		}else{
+			//init_signup();
 			return false;
 		}
 	});

@@ -4,6 +4,9 @@ $(document).ready(function(){
 		$(this).parent().parent().removeClass('error');
 	})
 
+					$(".list-stations li").bind('click', function() {
+						window.location = '/station/'+$(this).attr('id');
+					});
 	/*$('input.typeahead').typeahead({                                
 		title: 'station',                                                          
 		remote: '/stations.json',

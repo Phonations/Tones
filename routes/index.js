@@ -17,7 +17,8 @@ var app = module.parent.exports.app
  */
 app.get('/', function(req, res, next){
   if(req.isAuthenticated()){
-    res.redirect('/'+req.user._doc.username);
+    //res.redirect('/'+req.user._doc.username);
+    res.redirect('/home');
   } else{
     res.render('index', { title: 'PublicTones'});
   }

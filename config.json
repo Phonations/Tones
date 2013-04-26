@@ -15,7 +15,7 @@
     "secret" : "yourbestsecret"
   },
   "app": {
-    "port": 3333
+    "port": 3334
   },
   "theme": {
     "name" : "default"
