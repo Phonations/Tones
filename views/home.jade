@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  script(type='text/javascript', src='/themes/default/javascripts/home.js')
+  include nav
+  div.container.home
+   dir.row 
+    div.span11
+     h3 Hi #{username} you are one step away from your tones...
+   dir.row 
+    div.span7
+     input.input-block-level(type="text", placeholder="Search a station", name="search", autocomplete="off")#search
+     div.list-stations
+      ul.nav.nav-tabs.nav-stacked
+       - each station,index in stations	
+        li(id="#{station._id}") 
+         a #{station.title}
+          small.text-right #{station.users.length} users connected
+    div.span1
+     h3.text-center or
+    div.span3
+     button.btn.btn-large.btn-block.btn-success.create-btn(type="button") Create a Station
+  include modal_create

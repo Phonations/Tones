@@ -1,0 +1,43 @@
+div.modal.hide.fade#create_modal
+  div.modal-header
+   button(type="button", data-dismiss="modal", aria-hidden="true").close ×
+   h3 Create a new station
+  div.modal-body
+   form(method='post').form-horizontal
+    div.control-group.title
+     label.control-label(for="title") Title
+     div.controls
+      input#title(type="text", name="title", placeHolder="Title of the station")
+    div.control-group.description
+     label.control-label(for="name") Description
+      p: small (facultatif)
+     div.controls
+      textarea#description(rows="5", name="description", placeHolder="Description")
+    div.control-group.nb_users
+     label.control-label(for="nb_users") Number of users
+     div.controls
+      select#nb_users(name="nb_users")
+       - var i = 1;
+       - defaultNb = 4;
+       - var nb_maxuser = 16;
+       - for (i; i<=nb_maxuser; i++)
+        - if(i == defaultNb)
+         option(selected="selected") #{i}
+        - else 
+         option #{i}
+    div.control-group.nb_tones
+     label.control-label(for="nb_tones") Tones per user
+     div.controls
+      select#nb_tones(name="nb_tones")
+       - var i = 1;
+       - defaultNb = 12;
+       - var nb_maxuser = 12;
+       - for (i; i<=nb_maxuser; i++)
+        - if(i == defaultNb)
+         option(selected="selected") #{i}
+        - else 
+         option #{i}
+   div.message
+  div.modal-footer
+   a(href="#", data-dismiss="modal", aria-hidden="true").btn Close
+   a(href="#").btn.btn-success#submit_create Create station

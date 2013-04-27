@@ -38,6 +38,10 @@ userSchema.methods.unsetCurrentStation = function (fn) {
   fn();
 }
 
+userSchema.methods.defaultReturnUrl = function (fn) {
+  return '/'+this.username;
+}
+
 userSchema.methods.speak = function () {
   var greeting = this.username
     ? "Hi name is " + this.username

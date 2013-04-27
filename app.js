@@ -36,23 +36,13 @@ db.once('open', function callback () {
   console.log('Connected to tonesdb DB');
 });
 
-/*var sessionStore = exports.sessionStore = new SessionStore({
-    interval: 120000, // expiration check worker run interval in millisec (default: 60000)
-    connection: mongoose.connection // <== custom connection
-});*/
-
 var sessionStore = exports.sessionStore = new MongoStore();
 
-/*
- * Passportjs auth strategy
- */
-require('./strategy');
-
-//var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || config.app.port || 3000);
-  app.set('views', __dirname + '/views/themes/'+config.theme.name);
+  app.set('views', __dirname + '/views/');
   app.set('view engine', 'jade');
+  app.set('strict routing', true);
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -72,8 +62,21 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+/*
+ * Passportjs auth strategy
+ */
+require('./strategy')(app, passport);
 
-require('./routes');
+/*
+ * Create the routes
+ */
+require('./routes')(app, passport);
+
+/*
+* utilities
+*/
+require('./utilities')(app);
+
 
 server.listen(app.get('port'), function(){
   console.log("PublicTones started http listening on port " + app.get('port'));
@@ -93,16 +96,3 @@ require('./sockets');
 process.on('uncaughtException', function(err){
   console.log('Exception: ' + err.stack);
 });
-
-/*
-http.listen(app.get('port'), function(){
-  console.log("Express server http listening on port " + app.get('port'));
-});*/
-
-/*tones.set_sockets(io.sockets);
-
-io.sockets.on('connection', function (socket) {
-  tones.connect_tones({
-    socket: socket
-  });
-});*/
