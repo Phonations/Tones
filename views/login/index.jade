@@ -1,5 +1,8 @@
 extends ../../layouts/default
 
+block nav
+  include ../nav/nav_nosignin
+  
 block content
   script(type='text/javascript', src='/javascripts/login.js')
   div.container.login

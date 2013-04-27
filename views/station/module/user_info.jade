@@ -1,0 +1,17 @@
+div.user-info.module-inner(id="#{user._id}")
+  img(src='/images/avatar.jpg', width="65px").img-rounded.avatar
+  div.user-info-text
+   strong Hi 
+    span#nickname #{user.username}
+   p you can add 
+    span#nb_tones #{user.nb_tones} 
+    | more tones 
+   div.nb_tones
+    span.badge.badge-info
+     - for (var i = 0; i < user.nb_tones; ++i) {
+     i.icon-star.icon-white(id="star#{i}")
+     - }
+     - for (i; i < station.nb_tones; ++i) {
+     i.icon-star-empty.icon-white(id="star#{i}")
+     - }
+  div.clear

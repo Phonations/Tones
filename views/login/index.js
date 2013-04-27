@@ -1,3 +1,5 @@
+var config = require('../../config');
+
 exports.init = function (req, res){
   res.render('login', 
   { 
@@ -14,19 +16,19 @@ exports.login = function (req, res){
     if (!req.body.password) workflow.outcome.errfor.password = 'required';
     
     //return if we have errors already
-    if (workflow.hasErrors()) return workflow.emit('response');
+    if (workflow.hasErrors()) res.redirect('/login-failure/');
     
     workflow.emit('attemptLogin');
   });
   /**/
   workflow.on('attemptLogin', function() {
     req._passport.instance.authenticate('local', function(err, user, info) {
-      if (err) return workflow.emit('exception', err);
+      if (err) res.redirect('/login-failure/');
       
       if (!user) {
         workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
-        res.redirect('login-failure');
-        return workflow.emit('response');
+        res.redirect('/login-failure/');
+        //return workflow.emit('response');
       }
       else {
         req.login(user, function(err) {

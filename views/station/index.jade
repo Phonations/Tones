@@ -1,0 +1,46 @@
+
+extends ../layouts/default
+
+block nav
+  include ../nav/nav_nosignin
+
+block content
+  div.container.station
+   div.span4.left-column
+    div.module.img-rounded
+     include station_inc/user_info
+    div.module.img-rounded.users
+     include station_inc/connected_users
+    div.module.img-rounded.messages
+     include station_inc/tone_messages
+   div.span8 
+    div.module.img-rounded
+     div.module-inner 
+      h1 #{station.title}
+    div.module.img-rounded.player-wrap
+     div#ytapiplayer.player
+      div.inner-player There is no videos in the playlist, use the search to add videos in the  playlist!
+     div.module-title
+      i.icon-play
+      strong  Now playing 
+     if station.tones.length > 0 
+      - var tone = station.tones[0]
+       include station_inc/tone_item
+     else
+       div.tone.module-inner
+        p there is no music on the playlist
+    div.module.img-rounded.playlist
+     include station_inc/tone_playlist 
+   div.list-search.span6
+  
+block feet
+  script(type='text/javascript', src='/javascripts/libs/swfobject.js')
+  script(type='text/javascript', src='/javascripts/tones.player.js')
+  script(type='text/javascript', src='/javascripts/tones.playlist.js')
+  script(type='text/javascript', src='/javascripts/tones.item.js')
+  script(type='text/javascript', src='/javascripts/tones.search.js')
+  script(type='text/javascript', src='/javascripts/tones.users.js')
+  script(type='text/javascript', src='/javascripts/tones.messages.js')
+  script(type='text/javascript', src='/javascripts/tones.user.js')
+  script(type='text/javascript', src='/socket.io/socket.io.js')
+  script(type='text/javascript', src='/javascripts/station.js')

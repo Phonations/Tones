@@ -1,0 +1,17 @@
+extends ../../layouts/default
+
+block nav
+  include ../nav
+
+block content
+  div.container.profile
+   div.span12.header
+    include module/header
+   div.span3.left-column
+    include module/leftnav
+   div.span9
+    include module/stations
+  include ../modal/create_station
+
+block feet
+  script(type='text/javascript', src='/javascripts/profile.js')

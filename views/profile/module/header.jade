@@ -1,0 +1,31 @@
+div.module.img-rounded
+ div.hero-img
+  img(src="/images/header-profile.png")
+ div.module-inner
+  img(src='/images/avatar.jpg', width="95px").img-polaroid.avatar
+  h3 #{user_profile.username}
+  if (user_profile.username != user.username)
+   button.btn.add-friend.float-right
+    i.icon-plus
+    |  add Friend
+  else
+   button.btn.edit-profile.float-right 
+    i.icon-edit-large
+    | Edit Profile
+  div.clear
+ if(user_profile.station!='')
+   div.module-inner.user-infos
+    p
+     if(user_profile.station.tones.length>0)
+      span.muted Currently watching 
+      strong #{user_profile.station.tones[0].title}
+      span.muted on 
+     else
+      span.muted On 
+     a(href="/station/#{user_profile.station._id}")
+      strong #{user_profile.station.title}
+     span.muted  station 
+     if(user_profile.station.users.length>1)
+      | with 
+      a(href="#")
+       strong #{user_profile.station.users.length-1} others 

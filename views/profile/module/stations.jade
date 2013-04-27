@@ -1,0 +1,18 @@
+div.module.img-rounded
+ div.module-title
+   i.icon-list
+   strong  #{user_profile.username}'s stations
+   if (user_profile.username == user.username)
+    button.btn.btn-small.btn-success.add-friend.float-right.create-btn
+     i.icon-plus
+     |  add Station
+ if(user_profile.stations.length == 0)
+  div.item-station.module-inner
+   if (user_profile.username != user.username)
+    p.muted This user doesn't have any stations
+   else
+    p.muted you don't have any station 
+     a(href"#").create-btn create one
+     |  now!
+ - each station,index in user_profile.stations 
+  include station

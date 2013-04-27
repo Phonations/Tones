@@ -1,0 +1,12 @@
+div.tone.module-inner(id='#{tone._id}', yt_id='#{tone.id}')
+ img(src="#{tone.thumb}")
+ div.tone-text
+  span.muted 
+  p 
+   strong #{tone.title}
+  p.muted #{tone.duration}
+  p 
+   span.label.label-important #{tone.category}
+  p added by 
+   span.label.label-warning #{tone.user.username}
+ div.clear

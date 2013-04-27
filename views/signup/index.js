@@ -1,3 +1,9 @@
+
+var config = require('../../config')
+  , utils = require('../../utils')
+  , passport = require('passport')
+  , User = require('../../providers/user').User;
+
 exports.init = function(req, res){
   res.render('signup', { title: 'Create an account',
       fullname: '',
@@ -43,4 +49,28 @@ exports.signup = function(req, res){
       })(req, res);
     });
   }
+}
+
+
+exports.checkusername = function(req, res){
+  User.find({'username':req.body.username}).exec(function(err, users){
+    if(err) res.send({'error':1});
+    if(users.length>0){
+      res.send({'error':1});
+    }else{
+      res.send({'error':0});
+    }
+  });
+}
+
+
+exports.checkemail = function(req, res){
+  User.find({'email':req.body.email}).exec(function(err, users){
+    if(err) res.send({'error':1});
+    if(users.length>0){
+      res.send({'error':1});
+    }else{
+      res.send({'error':0});
+    }
+  });
 }
