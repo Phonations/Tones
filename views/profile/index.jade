@@ -11,6 +11,10 @@ block content
     include module/leftnav
    div.span9
     include module/stations
+    - var tones = user_profile.tones
+    - var title_list = "Tones played"
+    - var layout = "profile"
+     include ../tone/list
   include ../modal/create_station
 
 block feet

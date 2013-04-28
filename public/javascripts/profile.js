@@ -19,7 +19,6 @@ $(document).ready(function(){
         var isValid = true;
 
 		if($('#title').val() == ''){
-			console.log('click '+$('.title').attr('class'));
 			$('.title').addClass('error');
 			isValid = false;
 		}
@@ -28,13 +27,15 @@ $(document).ready(function(){
 			var str = $('#create_modal form').serialize(); 
 			$.ajax({ 
 				type: "POST",
-				url: "/create-station",
+				url: "/station/create",
 				data: str, 
 				success: function(data){ 
 					if(data.error == 0){
+						console.log('click '+data.title);
+						console.log('click '+data.username);
 						$('#title').val('');
 						$('#create_modal').modal('hide');
-						window.location = '/station/'+data.message;
+						window.location = '/'+data.username+'/s/'+data.title;
 					}else{
 						var alert = '<div class="alert alert-error"><button class="close">×</button><span>'+data.message+'</span></div>';
 						$('#create_modal .message').html(alert);

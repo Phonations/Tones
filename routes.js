@@ -39,10 +39,16 @@ exports = module.exports = function(app, passport) {
   app.get('/:username', utils.restrict, require('./views/profile/index').init);
   app.get('/:username/', utils.restrict, require('./views/profile/index').init);
 
+  // station
+  app.get('/:username/s/:title', utils.restrict, require('./views/station/index').init);
+  app.get('/:username/s/:title/', utils.restrict, require('./views/station/index').init);
+
   // modal actions
-  app.post('/create-station', utils.restrict, require('./views/modal/index').createstation);
+  app.post('/station/create', utils.restrict, require('./views/modal/index').createstation);
 
-
+  // modal actions
+  app.post('/tone/like', utils.restrict, require('./views/tone/index').like);
+  app.post('/tone/unlike', utils.restrict, require('./views/tone/index').unlike);
 /*
  * Authentication routes
 
@@ -73,7 +79,7 @@ if(config.auth.facebook.clientid.length) {
  * GET home page.
  * on this page the user can create station or search for a station
  */
-
+/*
 app.get('/home', utils.restrict, function(req, res){
   Station.find().limit(10).exec(function(err, stations){
     if(err) res.send({'error':'An error has occurred'});
@@ -93,21 +99,28 @@ app.post('/stations', utils.restrict, function(req, res){
   });
 });
 
-
+*/
 
 /*
  * GET station page.
  * this is the station page 
  */ 
+
+ /*
 app.get('/station/:id', utils.restrict, function(req, res){
-  utils.getStation(req, res, function(station, user){
-    res.render('station', {
-      title: 'station - '+station.title,
-      user: user,
-      station: station
+
+  utils.getStationById(req.params.id, function(station){
+    utils.getStation(req, res, station, function(station, user){
+      res.render('station', {
+        title: 'station - '+station.title,
+        user: user,
+        station: station
+      });
     });
   });
 });
+*/
+
 /*
  * GET profile page.
  * this is the profile page 
@@ -117,24 +130,17 @@ app.get('/station/:id', utils.restrict, function(req, res){
  * GET station page.
  * this is the station page 
 */
+/*
 app.get('/:username/s/:title', utils.restrict, function(req, res){
-  /*switch(req.params.username){
-    case 'javascripts':
-    case 'font':
-    case 'images':
-    case 'stylessheets':
-    case 'socket.io':
-      app.set('/'+req.params.username+'/'+req.params.title);
-      break;
-    default:
-      console.log('/:username/:title : '+req.params.username+'/'+req.params.title);*/
-      utils.getStation2(req, res, function(station, user){
-        res.render('station', {
-          title: 'station - '+station.title,
-          user: user,
-          station: station
-        });
+
+  utils.getStationByName(req.params.username, req.params.title, function(station){
+    utils.getStation(req, res, station, function(station, user){
+      res.render('station', {
+        title: 'station - '+station.title,
+        user: user,
+        station: station
       });
- // }
-});
+    });
+  }); 
+});*/
 }

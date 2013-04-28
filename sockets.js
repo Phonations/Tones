@@ -31,12 +31,20 @@ io.set('authorization', function (hsData, accept) {
         return accept('Error retrieving session!', false);
       }
       
-      hsData.tones = {
-        user: session.passport.user._doc,
-        station: /\/(?:([^\/]+?))\/?$/g.exec(hsData.headers.referer)[1]
-      };
+      var referer = hsData.headers.referer.split('/');
+      if(referer[referer.length-1] == ""){
+        referer.pop();
+      }
+      station_name = referer[referer.length-1];
+      user_name = referer[referer.length-3];
 
-      return accept(null, true);
+      utils.getStationByName(user_name, station_name, function(station){
+        hsData.tones = {
+          user: session.passport.user._doc,
+          station: station._id
+        };
+        return accept(null, true);
+      });
     
     });
   } else {
@@ -73,7 +81,8 @@ io.sockets.on('connection', function (socket) {
       Station.findById(station_id).exec(function(err, station){
         var itemTone = new ItemTone({
           'tone_id':tone_id,
-          'user_id':user._id
+          'user_id':user._id,
+          'station_id':station._id
         });
         itemTone.save(function(err, itemTone){
           if(err) console.log("something when wrong the ItemTone didn't save");

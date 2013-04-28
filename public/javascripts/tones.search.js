@@ -91,7 +91,7 @@
       $(self).html(list);
       list.addClass('img-rounded');
       $('.tone', self).each(function(){
-        $(this).titem();
+        $(this).tsearchitem();
       });
 
     },

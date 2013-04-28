@@ -1,0 +1,7 @@
+div.module.img-rounded.playlist
+ div.module-title
+  i.icon-list
+  strong  #{title_list}
+ - each tone,index in tones 
+   if ((index != 0)&&(layout == "station"))||(layout == "profile")
+    include index

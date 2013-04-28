@@ -4,6 +4,11 @@
   var methods = {
     init : function( options ) {
       console.log('tplaylist init:');
+      var self = this;
+
+      $('.tone', self).each(function(){
+        $(this).titem();
+      });
     },
     add : function (data){
       var self = this;
@@ -25,6 +30,7 @@
       }else{
         $(this).append(item);
       }
+      $(item).titem();
     },
     remove : function (videoId){
       if($('.player-wrap .tone').attr('id')==videoId){

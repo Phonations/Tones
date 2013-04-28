@@ -2,6 +2,8 @@
 var crypto = require('crypto')
   , Station = require('./providers/station').Station
   , Tone = require('./providers/tone').Tone
+  , ItemTone = require('./providers/tone').ItemTone
+  , ToneLike = require('./providers/tone').ToneLike
   , User = require('./providers/user').User;
 
 /*
@@ -166,6 +168,37 @@ exports.getTones = function(data, fn){
   })
 }
 
+exports.getTonesByUser = function(user_id, fn){
+  ItemTone.find({'user_id':user_id}).exec(function(err, itemtones){
+    exports.getTones(itemtones, fn);
+  });
+}
+
+exports.likeTone = function (user_id, tone_id, fn) { 
+  ToneLike.find({'user_id':user_id,'tone_id':tone_id}).exec(function(err, tonelikes){
+    if(tonelikes.length>0){
+      fn(err, tonelikes[0]._id);
+    }else{
+      var tonelike = new ToneLike({
+        user_id:user_id,
+        tone_id:tone_id
+      });
+
+      tonelike.save(function(err, tonelike){
+        fn(err, tonelike._id);
+      });
+    }
+  });
+};
+exports.unlikeTone = function (user_id, tone_id, fn) { 
+  ToneLike.remove({'user_id':user_id,'tone_id':tone_id}).exec(function(err){
+      fn(err);
+  });
+};
+
+exports.getLikes = function (user_id, tones, fn) {
+  
+}
 /**
 * function getMessages(data, fn)
 ** parameters 
@@ -275,11 +308,13 @@ user  : {
 
 exports.getUserInfoInStation = function(user, station, fn){
   var user_id = user._id;
-  for(var i=0;i<station.archives.users.length;i++){
-    var temp_id = station.archives.users[i].id;
-    if(user_id+'' === temp_id+''){
-      user.nb_tones = station.archives.users[i].nb_tones;
-      return fn(user); 
+  if(station.archives){
+    for(var i=0;i<station.archives.users.length;i++){
+      var temp_id = station.archives.users[i].id;
+      if(user_id+'' === temp_id+''){
+        user.nb_tones = station.archives.users[i].nb_tones;
+        return fn(user); 
+      }
     }
   }
   for(var i=0;i<station.users.length;i++){
@@ -351,22 +386,40 @@ user : {
 };
 
 */
+exports.getStationById = function(station_id, fn){
+  Station.findById(station_id).exec(function(err, station){
+      if(err) res.send({'error':'An error has occurred'});
+      fn(station);
+  });
+}
 
-exports.getStation = function(req, res, fn){
-  Station.findById(req.params.id).exec(function(err, station){
-    if(err) res.send({'error':'An error has occurred'});
-    // first we get the update the user info in the station
-    exports.getUserInfoInStation(req.user._doc, station, function(user){
-      // second we get the detail list of users
-      exports.getUsers(station.users, function(users){
-        station.users = users;
-        // third we get the detail list of tones
-        exports.getTones(station.tones, function(tones){
-          station.tones = tones;
-          // fourth we get the detail list of messages
-          exports.getMessages(station.messages, function(messages){
-            fn(station, user);
-          });
+exports.getStationByName = function(username, station_title, fn){
+  console.log('username:'+username);
+  User.find({'username':username}).exec(function(err, users){
+
+    console.log('users[0].username:'+users[0].username);
+    Station.find({'url':station_title, 'id_user_create':users[0]._id}).exec(function(err, stations){
+      //if(err) res.send({'error':'An error has occurred'});
+      // first we get the update the user info in the station
+      console.log('stations[0].title:'+stations[0].title);
+      station = stations[0];
+      fn(station);
+    });
+  });
+}
+
+exports.getStation = function(req, res, station, fn){
+  // first we get the update the user info in the station
+  exports.getUserInfoInStation(req.user._doc, station, function(user){
+    // second we get the detail list of users
+    exports.getUsers(station.users, function(users){
+      station.users = users;
+      // third we get the detail list of tones
+      exports.getTones(station.tones, function(tones){
+        station.tones = tones;
+        // fourth we get the detail list of messages
+        exports.getMessages(station.messages, function(messages){
+          fn(station, user);
         });
       });
     });

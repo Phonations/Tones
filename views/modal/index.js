@@ -1,9 +1,10 @@
 var config = require('../../config')
   , User = require('../../providers/user').User
   , utils = require('../../utils')
-  , Station = require('../../providers/user').User;
+  , Station = require('../../providers/station').Station;
 
 exports.createstation = function (req, res){
+  console.log('createstation :'+req.body.title);
   var station = new Station({
     'title':req.body.title,
     'url':req.body.title.replace(/\s+/g, '-').toLowerCase(),
@@ -15,6 +16,6 @@ exports.createstation = function (req, res){
 
   station.save(function(err, station){
     if(err) res.send({"error":1, "message": config.message.error_create_station});
-    res.send({"error":0, "message":station._id});
+    res.send({"error":0, "title":station.title, "username":req.user._doc.username});
   });
 }

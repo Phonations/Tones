@@ -1,18 +1,18 @@
 
-extends ../layouts/default
+extends ../../layouts/default
 
 block nav
-  include ../nav/nav_nosignin
+  include ../nav/nav_station
 
 block content
   div.container.station
    div.span4.left-column
     div.module.img-rounded
-     include station_inc/user_info
+     include module/user_info
     div.module.img-rounded.users
-     include station_inc/connected_users
+     include module/connected_users
     div.module.img-rounded.messages
-     include station_inc/tone_messages
+     include module/tone_messages
    div.span8 
     div.module.img-rounded
      div.module-inner 
@@ -25,12 +25,14 @@ block content
       strong  Now playing 
      if station.tones.length > 0 
       - var tone = station.tones[0]
-       include station_inc/tone_item
+       include ../tone/index
      else
        div.tone.module-inner
         p there is no music on the playlist
-    div.module.img-rounded.playlist
-     include station_inc/tone_playlist 
+    - var tones = station.tones
+    - var title_list = "Playlist"
+    - var layout = "station"
+     include ../tone/list 
    div.list-search.span6
   
 block feet
