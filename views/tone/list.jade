@@ -2,6 +2,21 @@ div.module.img-rounded.playlist
  div.module-title
   i.icon-list
   strong  #{title_list}
- - each tone,index in tones 
-   if ((index != 0)&&(layout == "station"))||(layout == "profile")
+ if(tones!=undefined) 
+  - each tone,index in tones 
+    if ((index != 0)&&(layout == "station"))||(layout == "profile")
+     include index
+ //
+  template 
+ script#tone(type='text/html')
+  - var tone = {};
+  - tone._id = '{{_id}}';
+  - tone.id = '{{id}}';
+  - tone.thumb = '{{thumb}}';
+  - tone.title = '{{title}}';
+  - tone.duration = '{{duration}}';
+  - tone.category = '{{category}}';
+  - var temp_user = {};
+  - temp_user.username = '{{user.username}}';
+  - tone.user = temp_user;
     include index

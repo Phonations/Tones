@@ -16,15 +16,12 @@ exports.restrict = function(req, res, next){
 };
 
 /*
- * Sort Case Insensitive
+ * Log
  */
-/*
-exports.encodePassword = function (pass) { 
-	if( typeof pass === 'string' && pass.length < 6 ) 
-		return ''
-	
-	return SHA2.b64_hmac(pass, salt )
-};
+
+exports.trace = function (value){
+  console.log(value);
+}
 
 /*
  * Sort Case Insensitive
@@ -161,7 +158,6 @@ exports.getTones = function(data, fn){
         }
         tones[i].user = user;
         tones[i]._id = data[i]._id;
-        console.log(tones._id+'-'+data[i]._id);
       }
       fn(tones);
     })
@@ -197,7 +193,20 @@ exports.unlikeTone = function (user_id, tone_id, fn) {
 };
 
 exports.getLikes = function (user_id, tones, fn) {
-  
+  var tones_ids = [];
+  for (var i; i<tones.length;i++)
+    tones_ids.push(tones[i]._id);
+  ToneLike.find({'user_id':user_id}).where('tone_id').in(tones_ids).exec(function(err, tonelikes){
+    for (var i; i<tones.length;i++){
+      tones[i].like = false;
+      for (var j; j<tonelikes.length;j++){
+        if(tones[i]._id+'' == tonelikes[j].tone_id+''){
+          tones[i].like = true;
+        }
+      }
+    }
+    fn(tones);
+  });
 }
 /**
 * function getMessages(data, fn)
@@ -278,7 +287,6 @@ exports.getUsers = function(data, fn){
   }
   User.find().where('_id').in(users_id).exec(function(err, users){
     if(err) res.send({'error':'An error has occurred'});
-    //console.log(users.length+' users found');
     for(var i = 0; i < users.length; i++){
       users[i].password = '';
     }
@@ -394,14 +402,8 @@ exports.getStationById = function(station_id, fn){
 }
 
 exports.getStationByName = function(username, station_title, fn){
-  console.log('username:'+username);
   User.find({'username':username}).exec(function(err, users){
-
-    console.log('users[0].username:'+users[0].username);
     Station.find({'url':station_title, 'id_user_create':users[0]._id}).exec(function(err, stations){
-      //if(err) res.send({'error':'An error has occurred'});
-      // first we get the update the user info in the station
-      console.log('stations[0].title:'+stations[0].title);
       station = stations[0];
       fn(station);
     });
@@ -425,7 +427,7 @@ exports.getStation = function(req, res, station, fn){
     });
   });
 }
-
+/*
 exports.getStation2 = function(req, res, fn){
   User.find({'username':req.params.username}).exec(function(err, users){
     if(err) res.send({'error':'1. An error has occurred'});
@@ -450,7 +452,7 @@ exports.getStation2 = function(req, res, fn){
       });
     });
   });
-}
+}*/
 
 /**
 * function getStationDetails(station_id, req, res, fn)

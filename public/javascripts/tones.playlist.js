@@ -12,7 +12,8 @@
     },
     add : function (data){
       var self = this;
-      var item = '<div id="' + data._id + '"  id_yt="' + data.id + '" class="tone module-inner">' 
+
+      /*var item = '<div id="' + data._id + '"  id_yt="' + data.id + '" class="tone module-inner">' 
               +'<img src="' + data.thumb + '">' 
               +'<div class="tone-text">' 
               +'<span class="muted"></span>' 
@@ -21,7 +22,8 @@
               +'<p><span class="label label-important">' + data.category + '</span></p>' 
               +'<p>Added by <span class="label label-warning">' + data.user.username + '</span></p>' 
               +'</div>' 
-              +'<div class="clear"></div></div>';
+              +'<div class="clear"></div></div>';*/
+      var item = ich.tone(data);
 
       if($('.player-wrap .tone').attr('id')==undefined){
         $('.player-wrap .tone').remove();

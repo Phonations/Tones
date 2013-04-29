@@ -16,7 +16,6 @@ exports.init = function (req, res){
           // get the tones of the user connected
         utils.getTonesByUser(user_profile._id, function(tones){
           user_profile.tones = tones;
-          console.log('tones.length:'+tones.length);
           // get the current station of the user connected
           utils.getStationDetails(user_profile.current_station, req, res, function(station){
             user_profile.station = station;

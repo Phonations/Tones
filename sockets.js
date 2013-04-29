@@ -35,10 +35,10 @@ io.set('authorization', function (hsData, accept) {
       if(referer[referer.length-1] == ""){
         referer.pop();
       }
-      station_name = referer[referer.length-1];
+      station_title = referer[referer.length-1];
       user_name = referer[referer.length-3];
 
-      utils.getStationByName(user_name, station_name, function(station){
+      utils.getStationByName(user_name, station_title, function(station){
         hsData.tones = {
           user: session.passport.user._doc,
           station: station._id
