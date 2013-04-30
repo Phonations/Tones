@@ -404,6 +404,9 @@ exports.getStationById = function(station_id, fn){
 exports.getStationByName = function(username, station_title, fn){
   User.find({'username':username}).exec(function(err, users){
     Station.find({'url':station_title, 'id_user_create':users[0]._id}).exec(function(err, stations){
+      for(var i in stations){
+        exports.trace('[getStationByName] '+i+':'+stations[i]);
+      }
       station = stations[0];
       fn(station);
     });

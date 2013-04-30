@@ -1,4 +1,5 @@
-var config = require('../../config');
+var config = require('../../config')
+  , Workflow = require('../../utilities/workflow');
 
 exports.init = function (req, res){
   res.render('login', 
@@ -9,7 +10,7 @@ exports.init = function (req, res){
 };
 
 exports.login = function (req, res){
-  var workflow = new req.app.utility.Workflow(req, res);
+  var workflow = new Workflow(req, res);
   
   workflow.on('validate', function() {
     if (!req.body.email) workflow.outcome.errfor.email = 'required';

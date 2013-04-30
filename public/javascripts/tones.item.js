@@ -10,7 +10,7 @@
       $('.btn', this).bind('click', function(){
 
         var data = {
-          id:$(self).attr('id'),
+          id:$(self).attr('yt_id'),
           thumb:$('img', self).attr('src'),
           title:$('strong', self).html(),
           category:$('.label', self).html(),

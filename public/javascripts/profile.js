@@ -35,7 +35,7 @@ $(document).ready(function(){
 						console.log('click '+data.username);
 						$('#title').val('');
 						$('#create_modal').modal('hide');
-						window.location = '/'+data.username+'/s/'+data.title;
+						window.location = '/'+data.username+'/s/'+data.url;
 					}else{
 						var alert = '<div class="alert alert-error"><button class="close">×</button><span>'+data.message+'</span></div>';
 						$('#create_modal .message').html(alert);

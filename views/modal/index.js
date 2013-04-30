@@ -16,6 +16,6 @@ exports.createstation = function (req, res){
 
   station.save(function(err, station){
     if(err) res.send({"error":1, "message": config.message.error_create_station});
-    res.send({"error":0, "title":station.title, "username":req.user._doc.username});
+    res.send({"error":0, "url":station.url, "username":req.user._doc.username});
   });
 }
