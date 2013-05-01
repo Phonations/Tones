@@ -31,7 +31,6 @@ $(document).ready(function(){
 				data: str, 
 				success: function(data){ 
 					if(data.error == 0){
-						console.log('/'+data.user_url+'/s/'+data.station_url);
 						$('#title').val('');
 						$('#create_modal').modal('hide');
 						window.location = '/'+data.user_url+'/s/'+data.station_url;

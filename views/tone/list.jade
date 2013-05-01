@@ -5,7 +5,7 @@ div.module.img-rounded.playlist
  if(tones!=undefined) 
   - each tone,index in tones 
     if ((index != 0)&&(layout == "station"))||(layout == "profile")
-     include index
+     include tone
  //
   template 
  script#tone(type='text/html')
@@ -19,4 +19,4 @@ div.module.img-rounded.playlist
   - var temp_user = {};
   - temp_user.username = '{{user.username}}';
   - tone.user = temp_user;
-    include index
+    include tone

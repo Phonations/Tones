@@ -135,21 +135,26 @@ $(document).ready(function(){
 	$("input.username").keyup(function() {
 		window.setTimeout(function(){
 			if($("input.username").val()!=''){
-				$.ajax({ 
-					type: "POST",
-					url: "/check-username",
-					data: 'username='+$("input.username").val(), 
-	  				dataType: "json",
-					success: function(data){ 
-						if(data.error == 0){
-							$(".username-group .help-inline span").css('display', 'none');
-							$(".username-group .success").css('display', 'block');
-						}else{
-							$(".username-group .help-inline span").css('display', 'none');
-							$(".username-group .error").css('display', 'block');
+				if(IsAlphanumeric($("input.username").val())){
+					$.ajax({ 
+						type: "POST",
+						url: "/check-username",
+						data: 'username='+$("input.username").val(), 
+		  				dataType: "json",
+						success: function(data){ 
+							if(data.error == 0){
+								$(".username-group .help-inline span").css('display', 'none');
+								$(".username-group .success").css('display', 'block');
+							}else{
+								$(".username-group .help-inline span").css('display', 'none');
+								$(".username-group .exist").css('display', 'block');
+							}
 						}
-					}
-				});
+					});
+				}else{
+					$(".username-group .help-inline span").css('display', 'none');
+					$(".username-group .error").css('display', 'block');
+				}
 			}else{
 				$(".username-group .help-inline span").css('display', 'none');
 				$(".username-group .required").css('display', 'block');
@@ -162,6 +167,7 @@ $(document).ready(function(){
 			$(".username-group .required").css('display', 'none');
 			$(".username-group .error").css('display', 'none');
 			$(".username-group .success").css('display', 'none');
+			$(".username-group .exist").css('display', 'none');
 		}
 	});
 	function init_signup(){

@@ -6,3 +6,12 @@ function IsEmail(email) {
 	   return true;
 	}
 }
+
+function IsAlphanumeric(value){
+	var regex = /^[a-zA-Z0-9\-\_]+$/;
+	if(!regex.test(value)) {
+	   return false;
+	}else{
+	   return true;
+	}
+}

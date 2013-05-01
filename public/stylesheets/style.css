@@ -55,8 +55,7 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .help-inline .error,
 .help-inline .success,
 .help-inline .required,
-.help-inline .exist
-{display:none;}
+.help-inline .exist{display:none;}
 .help-inline .error,
 .help-inline .required,
 .help-inline .exist{color:#c33}
@@ -85,7 +84,7 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .span12 {width:930px;margin-left:5px !important;}
 .hero-img {height:250px;overflow:hidden;}
 .header .module-inner{position:relative;}
-.header .avatar{position:absolute;top:-65px;}
+.header .avatar{position:absolute;top:-65px;left:10px}
 .header h3{line-height:10px;margin-left:110px;float:left;}
 .header .user-infos{border-top:1px solid #EFEFEF;}
 

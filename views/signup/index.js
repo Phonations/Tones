@@ -2,7 +2,7 @@
 var config = require('../../config')
   , utils = require('../../utils')
   , passport = require('passport')
-  , User = require('../../providers/user').User;
+  , User = require('../../controller/user');
 
 exports.init = function(req, res){
   res.render('signup', { title: 'Create an account',
@@ -15,6 +15,7 @@ exports.init = function(req, res){
 
 
 exports.signup = function(req, res){
+  // if post come from the index page, it auto populate the signup page
   if(req.body.from == 'index'){
     res.render('signup', { 
       title: 'Create an account',
@@ -25,8 +26,13 @@ exports.signup = function(req, res){
     });
   }
        
+  // Recieving the posting data from sign up form
+  // req.body.fullname
+  // req.body.email
+  // req.body.password
+  // req.body.username
   if(req.body.from == 'signup'){
-    utils.createUser(req.body, function(err, user){
+    User.createUser(req.body, function(err, user){
       if(err) {
         res.render('signup', { 
           title: 'Create an account',
@@ -44,7 +50,7 @@ exports.signup = function(req, res){
         if (!user) { return res.redirect('/login'); }
         req.logIn(user, function(err) {
           if (err) { return console.log(err); }
-          return res.redirect('/home');
+          return res.redirect('/');
         });
       })(req, res);
     });
@@ -53,24 +59,28 @@ exports.signup = function(req, res){
 
 
 exports.checkusername = function(req, res){
-  User.find({'username':req.body.username}).exec(function(err, users){
+  User.getUserByUsername(req.body.username, function(err, data){
     if(err) res.send({'error':1});
-    if(users.length>0){
-      res.send({'error':1});
-    }else{
-      res.send({'error':0});
+    else{
+      if(data){
+        res.send({'error':1});
+      }else{
+        res.send({'error':0});
+      }
     }
   });
 }
 
 
 exports.checkemail = function(req, res){
-  User.find({'email':req.body.email}).exec(function(err, users){
+  User.getUserByEmail(req.body.email, function(err, data){
     if(err) res.send({'error':1});
-    if(users.length>0){
-      res.send({'error':1});
-    }else{
-      res.send({'error':0});
+    else{
+      if(data){
+        res.send({'error':1});
+      }else{
+        res.send({'error':0});
+      }
     }
   });
 }

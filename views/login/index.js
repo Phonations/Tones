@@ -21,7 +21,7 @@ exports.login = function (req, res){
     
     workflow.emit('attemptLogin');
   });
-  /**/
+  
   workflow.on('attemptLogin', function() {
     req._passport.instance.authenticate('local', function(err, user, info) {
       if (err) res.redirect('/login-failure/');
@@ -29,13 +29,12 @@ exports.login = function (req, res){
       if (!user) {
         workflow.outcome.errors.push('Username and password combination not found or your account is inactive.');
         res.redirect('/login-failure/');
-        //return workflow.emit('response');
       }
       else {
         req.login(user, function(err) {
           if (err) return workflow.emit('exception', err);
           
-          res.redirect(user.defaultReturnUrl());
+          res.redirect('/');
         });
       }
     })(req, res);

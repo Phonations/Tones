@@ -39,6 +39,7 @@ $(document).ready(function(){
   });
 
   socket.on('newItem', function (data) {
+    console.log('newItem:'+data.id);
     console.log('newItem:'+data.title);
     $('.playlist').tplaylist('add', data);
   });

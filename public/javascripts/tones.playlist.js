@@ -23,12 +23,15 @@
               +'<p>Added by <span class="label label-warning">' + data.user.username + '</span></p>' 
               +'</div>' 
               +'<div class="clear"></div></div>';*/
+      console.log('data.id :'+data.id );        
       var item = ich.tone(data);
+
+
 
       if($('.player-wrap .tone').attr('id')==undefined){
         $('.player-wrap .tone').remove();
         $('.player-wrap').append(item);
-        $('#ytapiplayer').tplayer('playVideo', $('.player-wrap .tone').attr('id_yt'));
+        $('#ytapiplayer').tplayer('playVideo', $('.player-wrap .tone').attr('yt_id'));
       }else{
         $(this).append(item);
       }

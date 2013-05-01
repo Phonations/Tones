@@ -16,14 +16,6 @@ exports.restrict = function(req, res, next){
 };
 
 /*
- * Log
- */
-
-exports.trace = function (value){
-  console.log(value);
-}
-
-/*
  * Sort Case Insensitive
  */
 
@@ -43,7 +35,7 @@ exports.caseInsensitiveSort = function (a, b) {
  * add user
  */
 
-
+/*
 exports.createUser = function (data, fn) { 
 
   //first we double test if the username already exist
@@ -80,7 +72,7 @@ exports.createUser = function (data, fn) {
 /*
  * add tone
  */
-
+/*
 
 exports.createTone = function (data, fn) { 
   Tone.find({'id':data.id}).exec(function(err, tones){
@@ -127,7 +119,7 @@ tones : Array([
 ])  
 
  This function get all objects Tones from toneProvider and also get the associated username linked to the tone from the entry Array data
-*/
+*//*
 exports.getTones = function(data, fn){
   var tones_id = [];
   var users_id = [];
@@ -231,7 +223,7 @@ messages : Array([
     }
   }, ...
 ])  
-*/
+*//*
 exports.getMessages = function(data, fn){
   var users_id = [];
   var tempusers_id = [];
@@ -279,7 +271,7 @@ users : Array([
   }, ...
 ])  
 */
-
+/*
 exports.getUsers = function(data, fn){
   var users_id = [];
   for(var i = 0; i < data.length; i++){
@@ -313,7 +305,7 @@ user  : {
     nb_tones:Number
   }
 */
-
+/*
 exports.getUserInfoInStation = function(user, station, fn){
   var user_id = user._id;
   if(station.archives){
@@ -394,6 +386,7 @@ user : {
 };
 
 */
+/*
 exports.getStationById = function(station_id, fn){
   Station.findById(station_id).exec(function(err, station){
       if(err) res.send({'error':'An error has occurred'});
@@ -465,6 +458,7 @@ req.user._doc : user
 
 ** return 
 */
+/*
 exports.getStationDetails = function(station_id, req, res, fn){
   Station.find({'_id':station_id}).exec(function(err, stations){
     if(err){
@@ -497,3 +491,4 @@ exports.getStationDetails = function(station_id, req, res, fn){
     }
   });
 }
+*/

@@ -56,6 +56,18 @@
       var self = this;
       var items = [];
       $.each(data.data.items, function(key, val) {
+
+
+      /*var item = '<div id="' + data._id + '"  id_yt="' + data.id + '" class="tone module-inner">' 
+              +'<img src="' + data.thumb + '">' 
+              +'<div class="tone-text">' 
+              +'<span class="muted"></span>' 
+              +'<p> <strong>' + data.title + '</strong></p>' 
+              +'<p class="muted">' + data.duration + '</p>' 
+              +'<p><span class="label label-important">' + data.category + '</span></p>' 
+              +'<p>Added by <span class="label label-warning">' + data.user.username + '</span></p>' 
+              +'</div>' 
+              +'<div class="clear"></div></div>';*/
         var item='<div id="' + val.id + '" class="tone module-inner">'
         +'<img src="'+val.thumbnail.sqDefault+'">'
         +'<div class="tone-text">'
@@ -67,6 +79,16 @@
         +'<div class="clear">'
         +'</div>'
         +'</div>';
+
+        /*var data = {
+          "_id":val.id,
+          "id":val.id,
+          "thumb":val.thumbnail.sqDefault,
+          "title":val.title,
+          "duration":secondsToTime(val.duration),
+          "category":val.category
+        }
+        var item = ich.tone(data);*/
         items.push(item);
 
       });

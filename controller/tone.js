@@ -1,15 +1,38 @@
 var Tone = require('../providers/tone').Tone
-  , User = require('./user')
-  , Station = require('./station');
+	, ItemTone = require('../providers/tone').ItemTone
+	, User = require('./user')
+	, Station = require('./station');
+
+/** getToneById
+* params:
+tone_id : String
+
+* return:
+tone: cf provider/station
+*/
 
 exports.getToneById = function(tone_id, fn){
+  Tone.findById(tone_id).exec(function(err, tone){
+    if(err){
+      fn(err, {"error":"[tone] getToneById: An error has occurred"});
+    }else{
+      fn(err, tone);
+    }
+  });
 }
 
 exports.getTonesByUser = function(user, fn){
+	console.log('[controller/tone] getTonesByUser:'+user._id);
+  ItemTone.find({'user_id':user._id}).exec(function(err, data){
+    if(err) {
+    	fn(err, {"error":"[tone] getTonesByUser: An error has occurred"});
+    }else{
+    	exports.getTonesByItemTones(data, fn);
+	}
+  });
 }
 
 exports.getTonesByIds = function(tones_id, fn){
-  console.log('[controller/tone] findListByIds: in');
   Tone.find().where('_id').in(tones_id).exec(function(err, tones){
     if(err) {
     	fn(err, {"error":"[tone] findListByIds: An error has occurred"});
@@ -18,10 +41,10 @@ exports.getTonesByIds = function(tones_id, fn){
 	}
   })
 }
-
-exports.getTonesByStation = function(station, fn){
-  if(station.tones.length>0){
-	  var data = station.tones;
+exports.getTonesByItemTones = function(itemtones, fn){
+	console.log('[controller/tone] getTonesByItemTones:'+itemtones.length);
+  if(itemtones){
+	  var data = itemtones;
 	  var tones_id = [];
 	  var users_id = [];
 	  var tempusers_id = [];
@@ -50,6 +73,7 @@ exports.getTonesByStation = function(station, fn){
 	    		fn(err, data)
 		      }else{
 		      	tones = data;
+	  			data = itemtones;
 			    for(var i = 0; i < tones.length; i++){
 			      var user = {
 			        "_id" : data[i].user_id,
@@ -64,9 +88,11 @@ exports.getTonesByStation = function(station, fn){
 		}	
 	  });
 	}else{
-  		console.log('[controller/tone] findListByStation: out');
 		fn(false, []);
 	}
+}
+exports.getTonesByStation = function(station, fn){
+	exports.getTonesByItemTones(station.tones, fn);
 }
 
 exports.findListByListItems = function(items, fn){
@@ -75,5 +101,30 @@ exports.findListByListItems = function(items, fn){
 exports.findListByIds = function(tones_ids, fn){
 }
 
-exports.create = function(tone, fn){
+exports.createTone = function(data, fn){
+  Tone.find({'id':data.id}).exec(function(err, tones){
+    if(err) {
+    	fn(err, {"error":"[tone] createTone: An error has occurred"});
+    }else{
+	    if(tones.length > 0){
+	      fn(tones[0]._id);
+	    }else{
+	      var tone = new Tone({
+	        id:data.id,
+	        thumb:data.thumb,
+	        title:data.title,
+	        category:data.category,
+	        duration:data.duration,
+	      });
+
+	      tone.save(function(err, tone){
+			    if(err) {
+			    	fn(err, {"error":"[tone] createTone: An error has occurred"});
+			    }else{
+		        fn(tone._id);
+		   		}
+	      });
+	    }
+		}
+  });
 }

@@ -10,13 +10,13 @@
       $('.btn', this).bind('click', function(){
 
         var data = {
-          id:$(self).attr('yt_id'),
-          thumb:$('img', self).attr('src'),
-          title:$('strong', self).html(),
-          category:$('.label', self).html(),
-          duration:$('.muted', self).html()
+          'id':$(self).attr('id'),
+          'thumb':$('img', self).attr('src'),
+          'title':$('strong', self).html(),
+          'category':$('.label', self).html(),
+          'duration':$('.muted', self).html()
         }
-
+        console.log('[tsearchitem] init click:'+data.id);
         addItem(data);
       });
         
@@ -47,13 +47,13 @@
       var self = this;
       $(this).bind('click', function(){
         //$('.playlist').tplaylist('add', $(this).attr('id'));
-        var data = {
+        /*var data = {
           id:$(self).attr('id'),
           thumb:$('img', self).attr('src'),
           title:$('strong', self).html(),
           category:$('.label', self).html(),
           duration:$('.muted', self).html()
-        }
+        }*/
 
         console.log('like');
 

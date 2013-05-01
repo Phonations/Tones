@@ -12,10 +12,11 @@ var parent = module.parent.exports
   , parseCookies = require('connect').utils.parseSignedCookies
   , cookie = require('cookie')
   , config = require('./config.json')
-  , User = require('./controller/user')
-  , Station = require('./controller/station')
-  , Tone = require('./controller/tone')
-  , ItemTone = require('./controller/itemtone');
+  , utils = require('./utils')
+  , User = require('./providers/user').User
+  , Station = require('./providers/station').Station
+  , Tone = require('./providers/tone').Tone
+  , ItemTone = require('./providers/tone').ItemTone;
 
 
 var io = sio.listen(server);
@@ -34,10 +35,10 @@ io.set('authorization', function (hsData, accept) {
       if(referer[referer.length-1] == ""){
         referer.pop();
       }
-      station_url = referer[referer.length-1];
-      user_url = referer[referer.length-3];
+      station_title = referer[referer.length-1];
+      user_name = referer[referer.length-3];
 
-      Station.getStationByUrl(user_url, station_url, function(err, station){
+      utils.getStationByName(user_name, station_title, function(station){
         hsData.tones = {
           user: session.passport.user._doc,
           station: station._id
@@ -60,8 +61,8 @@ io.sockets.on('connection', function (socket) {
 
   socket.join(station_id);
   io.sockets.in(station_id).emit('newUser', user);
-  Station.getStationById(station_id, function(err, station){
-    User.getUserById(user._id, function(err, currentuser){
+  Station.findById(station_id).exec(function(err, station){
+    User.findById(user._id).exec(function(err, currentuser){
       currentuser.setCurrentStation(station_id, function(){
         station.enter(user._id, function(){});
       });
@@ -75,21 +76,22 @@ io.sockets.on('connection', function (socket) {
 
 
   socket.on('addItem', function(data) {
-    Tone.createTone(data, function(tone_id){
+    utils.createTone(data, function(tone_id){
       console.log('tone '+tone_id+' has been createTone');
-      Station.getStationById(station_id, function(err, station){
-        ItemTone.createItemTone({'tone_id':tone_id,'user_id':user._id,'station_id':station._id}, function(err, doc){
-          if(err){
-            console.log(doc.error);
-          }else{
-            var itemTone = doc;
-            station.addItemTone(itemTone, function(){
-              data._id = itemTone._id;
-              console.log('tone '+data.title+' has been added in station '+station_id);
-              data.user = user;
-              io.sockets.in(station_id).emit('newItem', data);
-            });
-          }
+      Station.findById(station_id).exec(function(err, station){
+        var itemTone = new ItemTone({
+          'tone_id':tone_id,
+          'user_id':user._id,
+          'station_id':station._id
+        });
+        itemTone.save(function(err, itemTone){
+          if(err) console.log("something when wrong the ItemTone didn't save");
+          station.addItemTone(itemTone, function(){
+            data._id = itemTone._id;
+            console.log('tone '+data.title+' has been added in station '+station_id);
+            data.user = user;
+            io.sockets.in(station_id).emit('newItem', data);
+          });
         });
       });
     })
@@ -97,7 +99,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('playerStopped', function  (tone_id) {
     console.log('playerStopped:'+tone_id);
-    Station.getStationById(station_id, function(err, station){
+    Station.findById(station_id).exec(function(err, station){
       station.archiveItemTone(tone_id, function(tone){
         io.sockets.in(station_id).emit('removeItem', tone);
         console.log('playerStopped station.tones.length:'+station.tones.length);
@@ -116,7 +118,7 @@ io.sockets.on('connection', function (socket) {
        '_id': user._id
     }
     data.user = user_message;
-    Station.getStationById(station_id, function(err, station){
+    Station.findById(station_id).exec(function(err, station){
       station.addMessage(data, function(){
         data.user.username = user.username;
         io.sockets.in(station_id).emit('newMessage', data);
@@ -129,8 +131,8 @@ io.sockets.on('connection', function (socket) {
   */
 
   socket.on('disconnect', function  () {
-    Station.getStationById(station_id, function(err, station){
-      User.getUserById(user._id, function(err, currentuser){
+    Station.findById(station_id).exec(function(err, station){
+      User.findById(user._id).exec(function(err, currentuser){
         currentuser.unsetCurrentStation(function(){
           station.leave(user._id, function(){
             //console.log('user '+user.username+' leave the room:'+station_id);

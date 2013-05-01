@@ -1,7 +1,7 @@
 extends ../../layouts/default
 
 block nav
-  include ../nav
+  include ../nav/index
 
 block content
   div.container.profile
@@ -18,5 +18,5 @@ block content
   include ../modal/create_station
 
 block feet
-  script(type='text/javascript', src='/javascripts/profile.js')
+  script(type='text/javascript', src='/javascripts/modal_createstation.js')
   script(type='text/javascript', src='/vendors/ICanHaz/ICanHaz.min.js')
