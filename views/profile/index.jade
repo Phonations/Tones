@@ -15,7 +15,11 @@ block content
     - var title_list = "Tones played"
     - var layout = "profile"
      include ../tone/list
-  include ../modal/create_station
+    - var tones = user_profile.likes
+    - var title_list = "Tones Liked"
+    - var layout = "profile"
+     include ../tone/listlike
+  include ../station/create
 
 block feet
   script(type='text/javascript', src='/javascripts/modal_createstation.js')

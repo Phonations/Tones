@@ -4,16 +4,15 @@ var config = require('../../config')
   , Like = require('../../controller/like');
 
 exports.init = function (req, res){
-  Station.getStationByUrl(req.params.username, req.params.title, function(err, station){
-    console.log('[view/station] init: got the station');
+  Station.getStationByUrl(req.params.username, req.params.title, function(err, data){
+    if(err)res.send(data);
+    station = data;
     Station.getInfosStation(req.user._doc, station, function(err, data){
       if(err)res.send(data);
       station = data.station;
       user = data.user;
-      console.log('[view/station] init: got the info station');
       Like.addLikesInTonesByUsers(user, station.tones, function(err, tones){
         if(err)res.send(data);
-        console.log('[view/station] init: got the likes');
         station.tones = tones;
         res.render('station', {
           title: 'station - '+station.title,

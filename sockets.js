@@ -102,7 +102,7 @@ io.sockets.on('connection', function (socket) {
         io.sockets.in(station_id).emit('removeItem', tone);
         console.log('playerStopped station.tones.length:'+station.tones.length);
         if(station.tones.length>0){
-          Tone.findById(station.tones[0].tone_id).exec(function(err, data){
+          Tone.getToneById(station.tones[0].tone_id, function(err, data){
             io.sockets.in(station_id).emit('playItem', data.id);
           });
         }

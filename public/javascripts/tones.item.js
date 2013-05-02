@@ -45,51 +45,33 @@
       
       console.log('titem init');
       var self = this;
-      $(this).bind('click', function(){
-        //$('.playlist').tplaylist('add', $(this).attr('id'));
-        /*var data = {
-          id:$(self).attr('id'),
-          thumb:$('img', self).attr('src'),
-          title:$('strong', self).html(),
-          category:$('.label', self).html(),
-          duration:$('.muted', self).html()
-        }*/
-
-        console.log('like');
-
-        var tone_id = $(this).attr("id");
-
-        if($('.unlike', self).length>0){
-          $.ajax({
-            dataType: "json",
-            data:"tone_id="+tone_id,
-            type: "POST",
-            url: "/tone/like",
-            success: function(data){
-              //$(self).tsearch('result', data);
-              if(data.error == 0){
-                $('.unlike', self).removeClass('unlike').addClass('like');
+      $('.btn-like', this).bind('click', function(){
+        if($('i', this).hasClass('icon-heart-empty')){
+            $.ajax({
+              dataType: "json",
+              data:"tone_id="+$(self).attr('id'),
+              type: "POST",
+              url: "/tone/like",
+              success: function(data){
+                if(data.error == 0){
+                  $('.btn-like i', self).removeClass('icon-heart-empty').addClass('icon-heart');
+                }
               }
-            }
-          });
-        }
-
-        if($('.like', self).length>0){
-          $.ajax({
-            dataType: "json",
-            data:"tone_id="+tone_id,
-            type: "POST",
-            url: "/tone/unlike",
-            success: function(data){
-              //$(self).tsearch('result', data);
-              if(data.error == 0){
-                $('.like', self).removeClass('like').addClass('unlike');
+            });
+          }else{
+            $.ajax({
+              dataType: "json",
+              data:"tone_id="+$(self).attr('id'),
+              type: "POST",
+              url: "/tone/unlike",
+              success: function(data){
+                if(data.error == 0){
+                  $('.btn-like i', self).removeClass('icon-heart').addClass('icon-heart-empty');
+                }
               }
-            }
-          });
-        }
-
-      });
+            });
+          }
+        });
     }
   }
 

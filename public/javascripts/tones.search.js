@@ -55,46 +55,20 @@
     result : function(data){
       var self = this;
       var items = [];
-      $.each(data.data.items, function(key, val) {
-
-
-      /*var item = '<div id="' + data._id + '"  id_yt="' + data.id + '" class="tone module-inner">' 
-              +'<img src="' + data.thumb + '">' 
-              +'<div class="tone-text">' 
-              +'<span class="muted"></span>' 
-              +'<p> <strong>' + data.title + '</strong></p>' 
-              +'<p class="muted">' + data.duration + '</p>' 
-              +'<p><span class="label label-important">' + data.category + '</span></p>' 
-              +'<p>Added by <span class="label label-warning">' + data.user.username + '</span></p>' 
-              +'</div>' 
-              +'<div class="clear"></div></div>';*/
-        var item='<div id="' + val.id + '" class="tone module-inner">'
-        +'<img src="'+val.thumbnail.sqDefault+'">'
-        +'<div class="tone-text">'
-          +'<p><strong>'+val.title+'</strong></p>'
-          +'<p class="muted">'+secondsToTime(val.duration)+'</p>'
-          +'<span class="label label-important">'+val.category+'</span>'
-          +'<button type="button" class="btn btn-success">+ Add to the playlist</button>'
-        +'</div>'
-        +'<div class="clear">'
-        +'</div>'
-        +'</div>';
-
-        /*var data = {
-          "_id":val.id,
-          "id":val.id,
-          "thumb":val.thumbnail.sqDefault,
-          "title":val.title,
-          "duration":secondsToTime(val.duration),
-          "category":val.category
-        }
-        var item = ich.tone(data);*/
-        items.push(item);
-
-      });
       var list = $('<div/>', {
-        'class': 'module',
-        html: items.join('')
+        'class': 'module'
+      });
+      $(self).html(list);
+      $.each(data.data.items, function(key, val) {
+        var dataItem = {};
+        dataItem.id =  dataItem._id = val.id;
+        dataItem.thumb =  val.thumbnail.sqDefault;
+        dataItem.title =  val.title;
+        dataItem.duration =  secondsToTime(val.duration);
+        dataItem.category =  val.category;
+
+        var item = ich.tonesearch(dataItem);
+        list.append(item);
       });
       $(self).css('display', 'block');
       if($('.modal-backdrop').length == 0){
@@ -110,7 +84,6 @@
           $(self).tsearch('hide');
         })
       }
-      $(self).html(list);
       list.addClass('img-rounded');
       $('.tone', self).each(function(){
         $(this).tsearchitem();

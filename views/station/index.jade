@@ -25,6 +25,7 @@ block content
       strong  Now playing 
      if station.tones.length > 0 
       - var tone = station.tones[0]
+      - tone.type = 'item';
        include ../tone/tone
      else
        div.tone.module-inner

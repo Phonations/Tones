@@ -38,7 +38,9 @@ exports.getStationByUrl = function(user_url, station_url, fn){
       fn(err, data);
     }else{  
       user = data;
+      console.log('[controller/station] getStationByUrl: got the user '+user.username);
       Station.find({'url':station_url, 'id_user_create':user._id}).exec(function(err, stations){
+        console.log('[controller/station] getStationByUrl: got the station '+station_url+' stations.length='+stations.length);
         fn(err, stations[0]);
       });
     }
@@ -155,6 +157,7 @@ station: cf provider/station
 
 
 exports.getStationsByUser = function(user, fn){
+  console.log('[stations] getStationsByUser:');
   Station.find({'id_user_create':user._id}).exec(function(err, stations){
     if(err) {
       fn(err, {"error":"[stations] getStationsByUser: An error has occurred"});
@@ -165,36 +168,42 @@ exports.getStationsByUser = function(user, fn){
 }
 exports.getCurrentStationbyId = function(station_id, fn){
   if((station_id=="")||(!station_id)){
+    //there is no valid id 
     fn(false, '');
   }else{
     exports.getStationById(station_id, function(err, data){
       if(err){
         fn(err, data);
       }else{
-        var station = data;
-        if(station){
-          // user is in a station
-          if(station.tones.length>0){
-            // if the is track in the playlist
+        if(!data){
+          //station doesn't exist anymore 
+          fn(false, '');
+        }else{
+          var station = data;
+          if(station){
+            // user is in a station
             if(station.tones.length>0){
-              // we need the title of the current track
-              Tone.getToneById(station.tones[0].tone_id, function(err, data){
-                if(err){
-                  fn(err, data);
-                }else{
-                  if(data){
-                    station.tones[0] = data;
+              // if the is track in the playlist
+              if(station.tones.length>0){
+                // we need the title of the current track
+                Tone.getToneById(station.tones[0].tone_id, function(err, data){
+                  if(err){
+                    fn(err, data);
+                  }else{
+                    if(data){
+                      station.tones[0] = data;
+                    }
+                    fn(err, station);
                   }
-                  fn(err, station);
-                }
-              });
+                });
+              }else{
+                // station has no tracks
+                fn(err, station);
+              }
             }else{
-              // station has no tracks
-              fn(err, station);
+              // user has no current Station
+              fn(err, '');
             }
-          }else{
-            // user has no current Station
-            fn(err, '');
           }
         }
       }
@@ -269,12 +278,17 @@ exports.getMessages = function(station, fn){
 *
 */
 exports.createStation = function(data, user, fn){
+  console.log('url:'+url);
+  var url = data.title.replace(/\s+/g, '-');
+  console.log('url:'+url);
+  url = url.replace(/[$/:-?{-~!/"#\'^`\[\]]+/g, '').toLowerCase();
+  console.log('url:'+url);
   var station = new Station({
     'title':data.title,
-    'url':data.title.replace(/\s+/g, '-').toLowerCase(),
+    'url':url,
     'id_user_create':user._id+'',
-    'nb_users':user.nb_users,
-    'nb_tones':user.nb_tones,
+    'nb_users':data.nb_users,
+    'nb_tones':data.nb_tones,
     'current': 0
   });
 

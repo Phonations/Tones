@@ -6,9 +6,9 @@
       console.log('tplaylist init:');
       var self = this;
 
-      $('.tone', self).each(function(){
+      /*$('.tone', self).each(function(){
         $(this).titem();
-      });
+      });*/
     },
     add : function (data){
       var self = this;

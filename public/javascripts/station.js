@@ -19,6 +19,9 @@ $(document).ready(function(){
   $('.users').tusers();
   $('.messages').tmessages();
   $('.user-info').tuser();
+  $('.tone').each(function(){
+    $(this).titem();
+  });
 
   socket.emit('init');
 
@@ -50,10 +53,6 @@ $(document).ready(function(){
   });
 
   socket.on('removeItem', function (data) {
-    console.log('removeItem '+ data._id);
-    console.log("$('.user-info').attr('id') "+ $('.user-info').attr('id'));
-    console.log("data.user_id "+ data.user_id);
-
     if(data.user_id == $('.user-info').attr('id')){
       $('.user-info').tuser('addStar');
     }

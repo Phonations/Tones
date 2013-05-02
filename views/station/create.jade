@@ -4,19 +4,35 @@ div.modal.hide.fade#create_modal
    h3 Create a new station
   div.modal-body
    form(method='post').form-horizontal
-    div.control-group.title
+    div.control-group.title-group
      label.control-label(for="title") Title
      div.controls
-      input#title(type="text", name="title", placeHolder="Title of the station")
-    div.control-group.description
+      input.title(type="text", name="title", placeHolder="Title of the station")
+      small.help-inline 
+       span Enter a title for your stations
+       span.error 
+        i.icon-remove
+        |  Oh! sorry but you can't use special characters in the title 
+       span.required 
+        i.icon-remove
+        |  A title is required!
+       span.success 
+        i.icon-ok
+        |  Title looks great.
+    div.control-group.description-group
      label.control-label(for="name") Description
       p: small (facultatif)
      div.controls
-      textarea#description(rows="5", name="description", placeHolder="Description")
-    div.control-group.nb_users
+      textarea.description(rows="5", name="description", placeHolder="Description")
+      small.help-inline 
+       span You don't have to but it will give your user more directions about what you'll like to see.
+       span.success 
+        i.icon-ok
+        |  This Description is looking good.
+    div.control-group.nb_users-group
      label.control-label(for="nb_users") Number of users
      div.controls
-      select#nb_users(name="nb_users")
+      select.nb_users(name="nb_users")#nb_users
        - var i = 1;
        - defaultNb = 4;
        - var nb_maxuser = 16;
@@ -25,10 +41,15 @@ div.modal.hide.fade#create_modal
          option(selected="selected") #{i}
         - else 
          option #{i}
-    div.control-group.nb_tones
+      small.help-inline 
+       span Select the maximun number of user you allow in the station
+       span.success 
+        i.icon-ok
+        |  Got it!
+    div.control-group.nb_tones-group
      label.control-label(for="nb_tones") Tones per user
      div.controls
-      select#nb_tones(name="nb_tones")
+      select.nb_tones(name="nb_tones")#nb_tones
        - var i = 1;
        - defaultNb = 12;
        - var nb_maxuser = 12;
@@ -37,6 +58,11 @@ div.modal.hide.fade#create_modal
          option(selected="selected") #{i}
         - else 
          option #{i}
+      small.help-inline 
+       span Select the maximun number of tones a user can add to the playlist
+       span.success 
+        i.icon-ok
+        |  Done and done!
    div.message
   div.modal-footer
    a(href="#", data-dismiss="modal", aria-hidden="true").btn Close

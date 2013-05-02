@@ -5,3 +5,12 @@ textarea(row="3",placeHolder="your message").comment
 div.module-inner
  - each message,index in station.messages 
    include message
+ //
+  template 
+ script#message(type='text/html')
+  - var message = {};
+  - message.message = '{{message}}';
+  - var temp_user = {};
+  - temp_user.username = '{{user.username}}';
+  - message.user = temp_user;
+    include message

@@ -123,19 +123,6 @@ stationSchema.methods.leave = function (user_id, fn) {
     }
 }
 
-/*stationSchema.methods.archiveTone = function (tone_id, fn){
-    for(var i=0;i<this.tones.length;i++){
-      var temp_id = this.tones[i]._id;
-      if(tone_id+'' === temp_id+''){
-        var tone = this.tones[i];
-        this.archives.tones.push(tone);
-        this.tones.splice(i, 1);
-        this.save();
-        return fn(tone); 
-      }
-    }
-}*/
-
 stationSchema.methods.archiveItemTone = function (tone_id, fn){
     for(var i=0;i<this.tones.length;i++){
       var temp_id = this.tones[i]._id;

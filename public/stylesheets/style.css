@@ -11,6 +11,8 @@ p{margin-bottom:5px;}
 .float-right{float:right;}
 .float-left{float:left;}
 .border-bottom {border-bottom:1px solid #EFEFEF}
+.modal {width:700px;margin-left: -350px;}
+.modal .help-inline {width:260px;}
 /* Navigation*/
 body > .navbar .brand {
 padding-right: 0;
@@ -158,51 +160,12 @@ box-shadow:none;
 .tone {position:relative;border-bottom:1px solid #EFEFEF;cursor:pointer;}
 .tone img {float:left;width:120px;height:auto;}
 .tone .tone-text {margin-left:130px;}
-.tone .btn {position:absolute; bottom:10px;right:10px;}
+.tone .btn-wrapper {position:absolute; bottom:10px;right:10px;}
+.tone .btn {float:right;margin-left:5px;}
 .tone .unlike{color: #efefef;}
 .tone:hover .unlike{color: #ff3535;}
-.tone .like{color: #ff3535;}
+.tone .btn-like{color: #da4f49;}
 
 .list-search {position:absolute;left:240px;top:0px;z-index:1041;}
 .list-search .module{margin-bottom: 20px;-moz-box-shadow: 1px 1px 6px #000;-webkit-box-shadow: 1px 1px 6px #000;box-shadow: 1px 1px 6px #000;}
-/*
-#ytapiplayer {margin-top:60px;}
-.inner-player{color:#efefef; text-align:center};
-
-.small #ytapiplayer {width:460px; height:240px;}
-.small .inner-player{width:460px; height:240px;background-color:#000000;}
-.small .playlist {margin-top:-200px}
-
-.large #ytapiplayer {width:100%; height:540px;}
-.large .inner-player{width:100%; height:40px;background-color:#000000;padding:250px 0;}
-
-.user-info {height:100px;}
-.user-info .avatar{float:left;margin-right:10px;}
-.user-info #songs .badge-important {margin-right:5px}
-
-/* item search 
-.item {list-style-type: none;padding:0;margin:0;background-color: #EFEFEF;margin:10px 0;cursor:pointer;}
-.item:hover, .item:hover, .item.current{background-color: #ffffff;color:#000000;}
-.item img, .item img{float:left;margin-right:10px;}
-.item .item_content{height:90px}
-.item .span1{margin-left:0px}
-.item .title{margin-bottom:0px}
-.item .cat{margin-top:0px}
-.item .addedby{float:right; margin-right:10px;}
-
-.users .item .item_content{height:40px}
-
-.navbar .nav span{margin-left:5px}
-
-/* navbar search 
-.span6 .navbar{margin:10px 0;height: 40px;}
-.span6 .navbar .nav{margin-top:4px;}
-.span6 .navbar .nav li{cursor:pointer;}
-.span6 .navbar .nav li:hover{background-color:#ffffff;}
-.span6 .navbar .nav a{padding: 5px 15px 5px;}
-.span6 .navbar .navbar-search{margin-right: 5px;}
-.span6 .navbar .navbar-search input{width:160px;}
-.span6 .navbar .navbar-search .icon-search{position:absolute;right:10px;top:6px;}
-
-.list{margin-top:10px}
 

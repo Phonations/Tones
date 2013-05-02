@@ -136,6 +136,7 @@ $(document).ready(function(){
 		window.setTimeout(function(){
 			if($("input.username").val()!=''){
 				if(IsAlphanumeric($("input.username").val())){
+				//if(HasNoSpecChar($("input.username").val())){
 					$.ajax({ 
 						type: "POST",
 						url: "/check-username",

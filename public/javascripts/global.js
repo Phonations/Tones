@@ -15,3 +15,12 @@ function IsAlphanumeric(value){
 	   return true;
 	}
 }
+
+function HasNoSpecChar(value){
+	var regex = /[$/:-?{-~!/"#\'^`\[\]]/;
+	if(regex.test(value)) {
+	   return false;
+	}else{
+	   return true;
+	}
+}

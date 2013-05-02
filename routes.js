@@ -25,6 +25,7 @@ exports = module.exports = function(app, passport) {
   app.get('/login/reset/', require('./views/login/reset/index').init);
   app.get('/login/reset/:token/', require('./views/login/reset/index').init);
   app.put('/login/reset/:token/', require('./views/login/reset/index').set);
+  app.get('/logout', require('./views/logout/index').init);
   app.get('/logout/', require('./views/logout/index').init);
 
   //sign up

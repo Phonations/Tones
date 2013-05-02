@@ -42,8 +42,7 @@ exports.getTonesByIds = function(tones_id, fn){
   })
 }
 exports.getTonesByItemTones = function(itemtones, fn){
-	console.log('[controller/tone] getTonesByItemTones:'+itemtones.length);
-  if(itemtones){
+  if(itemtones.length){
 	  var data = itemtones;
 	  var tones_id = [];
 	  var users_id = [];
@@ -95,10 +94,15 @@ exports.getTonesByStation = function(station, fn){
 	exports.getTonesByItemTones(station.tones, fn);
 }
 
-exports.findListByListItems = function(items, fn){
-}
-
-exports.findListByIds = function(tones_ids, fn){
+exports.getTonesByIds = function(tones_ids, fn){
+  console.log("[tones] tones:"+tones_ids.length);
+  Tone.find().where('_id').in(tones_ids).exec(function(err, tones){
+    if(err) {
+    	fn(err, {"error":"[tone] createTone: An error has occurred"});
+    }else{
+    	fn(err, tones);
+	 	}
+	});
 }
 
 exports.createTone = function(data, fn){

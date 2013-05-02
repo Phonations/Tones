@@ -17,17 +17,7 @@
     },
 
     add : function (data){
-
-      var item = '<div class="message">'
-                +'<img src="/images/avatar.jpg" width="40px" class="img-rounded avatar"/>'
-                +'<div class="message-text">'
-                +'<small class="muted">'+data.user.username+'</small>'
-                +'<br/>'
-                +'<small>'+data.message+'</small>'
-                +'</div>'
-                +'<div class="clear"></div>'
-                +'</div>'
-
+      var item = ich.message(data);
       $('.module-inner', this).prepend(item);
     }
   };
