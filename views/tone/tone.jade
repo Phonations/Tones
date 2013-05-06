@@ -3,15 +3,23 @@ div.tone.module-inner(id='#{tone._id}', yt_id='#{tone.id}')
  div.tone-text
   p 
    strong #{tone.title}
-  p.muted #{tone.duration} #{tone.like}
+  p.muted #{tone.duration}
   p 
    span.label.label-important #{tone.category}
   if(tone.type == 'item')
    p.float-left added by 
     span.label.label-warning #{tone.user.username}
    div.btn-wrapper
-    button(type="button",class="btn btn-small btn-danger btn-remove")
-     i.icon-remove
+    //
+     button(type="button",class="btn btn-small btn-danger btn-remove")
+      i.icon-remove
+    button(type="button",class="btn btn-small btn-like")
+     if(tone.like)
+      i.icon-heart
+     else
+      i.icon-heart-empty
+  if(tone.type == 'like')
+   div.btn-wrapper
     button(type="button",class="btn btn-small btn-like")
      if(tone.like)
       i.icon-heart

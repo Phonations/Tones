@@ -31,7 +31,7 @@ exports.getTonesByUser = function(user, fn){
 	}
   });
 }
-
+/*
 exports.getTonesByIds = function(tones_id, fn){
   Tone.find().where('_id').in(tones_id).exec(function(err, tones){
     if(err) {
@@ -40,7 +40,19 @@ exports.getTonesByIds = function(tones_id, fn){
 	    fn(err, tones);
 	}
   })
+}*/
+
+exports.getTonesByIds = function(tones_ids, fn){
+  console.log("[tones] tones:"+tones_ids.length);
+  Tone.find().where('id').in(tones_ids).exec(function(err, tones){
+    if(err) {
+    	fn(err, {"error":"[tone] createTone: An error has occurred"});
+    }else{
+    	fn(err, tones);
+	 	}
+	});
 }
+
 exports.getTonesByItemTones = function(itemtones, fn){
   if(itemtones.length){
 	  var data = itemtones;
@@ -93,25 +105,13 @@ exports.getTonesByItemTones = function(itemtones, fn){
 exports.getTonesByStation = function(station, fn){
 	exports.getTonesByItemTones(station.tones, fn);
 }
-
-exports.getTonesByIds = function(tones_ids, fn){
-  console.log("[tones] tones:"+tones_ids.length);
-  Tone.find().where('_id').in(tones_ids).exec(function(err, tones){
-    if(err) {
-    	fn(err, {"error":"[tone] createTone: An error has occurred"});
-    }else{
-    	fn(err, tones);
-	 	}
-	});
-}
-
 exports.createTone = function(data, fn){
   Tone.find({'id':data.id}).exec(function(err, tones){
     if(err) {
     	fn(err, {"error":"[tone] createTone: An error has occurred"});
     }else{
 	    if(tones.length > 0){
-	      fn(tones[0]._id);
+	      fn(tones[0].id);
 	    }else{
 	      var tone = new Tone({
 	        id:data.id,
@@ -125,7 +125,7 @@ exports.createTone = function(data, fn){
 			    if(err) {
 			    	fn(err, {"error":"[tone] createTone: An error has occurred"});
 			    }else{
-		        fn(tone._id);
+		        fn(tone.id);
 		   		}
 	      });
 	    }

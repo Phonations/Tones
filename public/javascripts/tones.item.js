@@ -49,7 +49,7 @@
         if($('i', this).hasClass('icon-heart-empty')){
             $.ajax({
               dataType: "json",
-              data:"tone_id="+$(self).attr('id'),
+              data:"tone_id="+$(self).attr('yt_id'),
               type: "POST",
               url: "/tone/like",
               success: function(data){
@@ -61,7 +61,7 @@
           }else{
             $.ajax({
               dataType: "json",
-              data:"tone_id="+$(self).attr('id'),
+              data:"tone_id="+$(self).attr('yt_id'),
               type: "POST",
               url: "/tone/unlike",
               success: function(data){
