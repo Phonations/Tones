@@ -116,6 +116,10 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .item-station .station-text {margin-left:75px;}
 .item-station .btn {position:absolute; bottom:10px;right:10px;}
 .item-station a {cursor:pointer;}
+
+.profile .playlist,
+.profile .likes {display:none;}
+
 /* station page*/
 
 [class*="span"] {margin-left:10px;}
