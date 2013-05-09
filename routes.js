@@ -50,6 +50,8 @@ exports = module.exports = function(app, passport) {
   // modal actions
   app.post('/tone/like', utils.restrict, require('./views/tone/index').like);
   app.post('/tone/unlike', utils.restrict, require('./views/tone/index').unlike);
+
+  app.post('/profile/sendfriendship', utils.restrict, require('./views/profile/index').sendfriendship);
 /*
  * Authentication routes
 

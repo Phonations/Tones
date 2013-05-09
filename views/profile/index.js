@@ -3,7 +3,8 @@ var config = require('../../config')
   , User = require('../../controller/user')
   , Station = require('../../controller/station')
   , Tone = require('../../controller/tone')
-  , Like = require('../../controller/like');
+  , Like = require('../../controller/like')
+  , Friendship = require('../../controller/friendship');
 
 exports.init = function (req, res){
   console.log('[view/profile] init:');
@@ -54,5 +55,13 @@ exports.init = function (req, res){
         }
       });
     }
+  });
+}
+
+
+exports.sendfriendship = function (req, res){
+  Friendship.sendFriendship(req.body.user1_id, req.body.user2_id, function(err){
+    if(err) res.send({"error":1});
+    res.send({"error":0});
   });
 }
