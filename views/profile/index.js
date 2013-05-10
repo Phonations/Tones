@@ -13,6 +13,8 @@ exports.init = function (req, res){
     if(err){ 
       if(err) res.send(data);
     }else{
+      if(!data) res.redirect('/404/');
+      console.log('[view/profile] init:'+data);
       // get the stations the user created
       var user_profile = data;
       Station.getStationsByUser(user_profile, function(err, data){

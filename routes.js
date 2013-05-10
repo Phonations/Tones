@@ -36,6 +36,8 @@ exports = module.exports = function(app, passport) {
   app.post('/check-username', require('./views/signup/index').checkusername);
   app.post('/check-email', require('./views/signup/index').checkemail);
 
+  app.get('/404/', require('./views/http/index').http404);
+
   // profile page
   app.get('/:username', utils.restrict, require('./views/profile/index').init);
   app.get('/:username/', utils.restrict, require('./views/profile/index').init);
@@ -52,6 +54,9 @@ exports = module.exports = function(app, passport) {
   app.post('/tone/unlike', utils.restrict, require('./views/tone/index').unlike);
 
   app.post('/profile/sendfriendship', utils.restrict, require('./views/profile/index').sendfriendship);
+
+  //route not found
+  //app.all('*', require('./views/http/index').http404);
 /*
  * Authentication routes
 
