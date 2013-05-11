@@ -5,9 +5,20 @@ div.module.img-rounded
   img(src='/images/avatar.jpg', width="95px").img-polaroid.avatar
   h3 #{user_profile.username}
   if (user_profile.username != user.username)
-   button.btn.add-friend.float-right
-    i.icon-plus
-    |  add Friend
+   if (!friendship)
+    button.btn.add-friend.float-right(user1_id="#{user._id}", user2_id="#{user_profile._id}")
+     i.icon-plus
+     |  add Friend
+   else
+    if (friendship.status == "sent")
+     button.btn.float-right.disabled(user1_id="#{user._id}", user2_id="#{user_profile._id}")
+      |  Friend request sent
+    if (friendship.status == "recieve")
+     button.btn.add-friend.float-right.btn-success(user1_id="#{user._id}", user2_id="#{user_profile._id}")
+      |  accept Friend
+    if (friendship.status == "friends")
+     button.btn.float-right.btn-success.disabled(user1_id="#{user._id}", user2_id="#{user_profile._id}")
+      |  Friend
   else
    button.btn.edit-profile.float-right 
     i.icon-edit-large

@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
 
 var friendshipSchema = mongoose.Schema({
-    user1: Object,
-    user2: Object,
-    dateCreate:Number
+	user1: {
+		_id:String,
+		accept:Boolean
+	},
+	user2: {
+		_id:String,
+		accept:Boolean
+	},
+	dateCreate:Number
 });
 
 

@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({
     email: String,
     url: String,
     password: String,
-    current_station: String
+    current_station: String,
+    friends:Array
 });
 
 
