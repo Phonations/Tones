@@ -1,17 +1,24 @@
 div.module.img-rounded
  ul.nav.nav-list.profile-sidenav
   li.active#stations
-   a(href-"#")
+   a(href="#")
     i.icon-chevron-right
     i.icon-list
-    strong Stations
+    strong #{user_profile.stations.length} Stations 
   li#playlist
-   a(href-"#")
+   a(href="#")
     i.icon-chevron-right
     i.icon-beer
-    strong Tones Played
-  li.last#likes
-   a(href-"#")
+    strong #{user_profile.tones.length} Tones Played 
+  li#likes
+   a(href="#")
     i.icon-chevron-right
     i.icon-heart
-    strong Tones Liked
+    strong #{user_profile.likes.length} Tones Liked 
+  li.last#users
+   a(href="#")
+    i.icon-chevron-right
+    i.icon-group 
+    strong #{user_profile.friends.length} Friends 
+    if(user_profile.request.length>0)
+     span.badge.badge-warning #{user_profile.request.length}

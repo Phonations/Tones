@@ -11,6 +11,8 @@ block content
     include module/leftnav
    div.span9
     include module/stations
+    if(stationsWithFriends.length>0)
+     include module/stationswithfriends
     - var tones = user_profile.tones
     - var title_list = "Tones played"
     - var layout = "profile"
@@ -19,6 +21,20 @@ block content
     - var title_list = "Tones Liked"
     - var layout = "profile"
      include ../tone/listlike
+    if(user_profile.request.length>0)
+     - var users = user_profile.request
+     - var title_list = "Friend Request"
+     - var layout = "profile"
+      include ../user/list
+    if(user_profile.pending.length>0)
+     - var users = user_profile.pending
+     - var title_list = "Pending Request"
+     - var layout = "profile"
+      include ../user/list
+    - var users = user_profile.friends
+    - var title_list = "Friends"
+    - var layout = "profile"
+     include ../user/list
   include ../station/create
 
 block feet

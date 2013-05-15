@@ -1,0 +1,9 @@
+div.module.img-rounded.users
+ div.module-title
+  i.icon-group
+  strong  #{title_list}
+ div.user.module-inner
+  if(users!=undefined) 
+   - each user,index in users 
+     include user
+  div.clear

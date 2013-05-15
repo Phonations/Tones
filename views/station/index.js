@@ -1,6 +1,7 @@
 var config = require('../../config')
   , utils = require('../../utils')
   , Station = require('../../controller/station')
+  , User = require('../../controller/user')
   , Like = require('../../controller/like');
 
 exports.init = function (req, res){
@@ -29,5 +30,17 @@ exports.createstation = function (req, res){
     if(err) res.send(data);
     var station = data;
     res.send({"error":0, "station_url":station.url, "user_url":req.user._doc.url});
+  });
+}
+
+exports.redirectStation = function (req, res){
+  Station.getStationById(req.params.id, function(err, data){
+    if(err)res.send(data);
+    var station = data;
+    User.getUserById(station.id_user_create, function(err, data){
+      if(err)res.send(data);
+      var user = data;
+      res.redirect('/'+user.url+'/s/'+station.url);
+    });
   });
 }

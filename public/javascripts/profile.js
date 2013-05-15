@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+    $('.connected-user a img').tooltip();
+    
 	$('.profile-sidenav li').bind('click', function(){
 		if(!$(this).hasClass('active')){
 			$('.profile-sidenav .active').removeClass('active');

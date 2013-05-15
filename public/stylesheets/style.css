@@ -98,8 +98,11 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .nav-list > li.active > a:hover {background-color: #3a87ad;	color: #fff;cursor: default}
 
 .nav-list > li.active > a  > .icon-chevron-right {opacity: 1;}
+.nav-list > li.active > a  > .badge {color: #3a87ad;background:#fff;}
 .nav-list > li.last > a {border-bottom:none;}
 .profile-sidenav strong{margin-left:10px;}
+
+
 
 .module-title .btn-small.float-right{margin-top:-5px;margin-right:-5px;}
 .module-title .icon-chevron-down.float-right,
@@ -118,8 +121,14 @@ a.sb.sb-small i{ width: auto; height: auto; }
 .item-station a {cursor:pointer;}
 
 .profile .playlist,
-.profile .likes {display:none;}
+.profile .likes,
+.profile .users {display:none;}
 
+.profile .connected-user .avatar {
+float: left;
+width: 65px;
+height: auto;
+}
 /* station page*/
 
 [class*="span"] {margin-left:10px;}

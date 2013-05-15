@@ -13,7 +13,7 @@ station: cf provider/station
 */
 
 exports.getStationById = function(station_id, fn){
-  Station.findById(station_id).exec(function(err, station){
+  Station.findOne({"_id":station_id}).exec(function(err, station){
     if(err){
       fn(err, {"error":"[station] getStationById: An error has occurred"});
     }else{
@@ -38,9 +38,7 @@ exports.getStationByUrl = function(user_url, station_url, fn){
       fn(err, data);
     }else{  
       user = data;
-      console.log('[controller/station] getStationByUrl: got the user '+user.username);
       Station.find({'url':station_url, 'id_user_create':user._id}).exec(function(err, stations){
-        console.log('[controller/station] getStationByUrl: got the station '+station_url+' stations.length='+stations.length);
         fn(err, stations[0]);
       });
     }
@@ -48,6 +46,23 @@ exports.getStationByUrl = function(user_url, station_url, fn){
 }
 
 
+/** getStationsByIds
+* params:
+station_id : String
+
+* return:
+station: cf provider/station
+*/
+
+exports.getStationsByIds = function(stations_ids, fn){
+  Station.find().where('_id').in(stations_ids).exec(function(err, stations){
+    if(err) {
+      fn(err, {"error":"[station] getStationsByIds: An error has occurred"});
+    }else{
+      fn(err, stations);
+    }
+  });
+}
 
 /**
 * function getInfosStation(user, station, fn)
@@ -157,7 +172,6 @@ station: cf provider/station
 
 
 exports.getStationsByUser = function(user, fn){
-  console.log('[stations] getStationsByUser:');
   Station.find({'id_user_create':user._id}).exec(function(err, stations){
     if(err) {
       fn(err, {"error":"[stations] getStationsByUser: An error has occurred"});
@@ -175,36 +189,28 @@ exports.getCurrentStationbyId = function(station_id, fn){
       if(err){
         fn(err, data);
       }else{
-        if(!data){
-          //station doesn't exist anymore 
-          fn(false, '');
-        }else{
-          var station = data;
-          if(station){
-            // user is in a station
+        var station = data;
+        if(station){
+            // if the is track in the playlist
             if(station.tones.length>0){
-              // if the is track in the playlist
-              if(station.tones.length>0){
-                // we need the title of the current track
-                Tone.getToneById(station.tones[0].tone_id, function(err, data){
-                  if(err){
-                    fn(err, data);
-                  }else{
-                    if(data){
-                      station.tones[0] = data;
-                    }
-                    fn(err, station);
+              // we need the title of the current track
+              Tone.getToneById(station.tones[0].tone_id, function(err, data){
+                if(err){
+                  fn(err, data);
+                }else{
+                  if(data){
+                    station.tones[0] = data;
                   }
-                });
-              }else{
-                // station has no tracks
-                fn(err, station);
-              }
+                  fn(err, station);
+                }
+              });
             }else{
-              // user has no current Station
-              fn(err, '');
+              // station has no tracks
+              fn(err, station);
             }
-          }
+        }else{
+          // user has no current Station
+          fn(err, '');
         }
       }
     })
@@ -301,6 +307,36 @@ exports.createStation = function(data, user, fn){
   });
 }
 
+exports.getStationsWithFriends = function(user, user_id, fn){
+  if((user._id+'' == user_id+'')&&(user.friends.length>0)){
+    stations_id = [];
+    for(var i = 0; i<user.friends.length; i++){
+      if((user.friends[i].current_station)&&(user.friends[i].current_station!='')){
+        stations_id.push(user.friends[i].current_station);
+      }
+    }
+    console.log('[controller/Stations] getStationsWithFriends:'+stations_id.length);
+    exports.getStationsByIds(stations_id, function(err, data){
+      if(err){
+        fn(err, data);
+      }else{
+        var stations = data;
+        console.log('[controller/Stations] getStationsWithFriends:'+stations.length);
+        for(var i = 0; i<stations.length; i++){
+          stations[i].users = [];
+          for(var j = 0; j<user.friends.length; j++){
+            if(stations[i]._id == user.friends[j].current_station){
+              stations[i].users.push(user.friends[j])
+            }    
+          }
+        }
+        fn(err, stations);
+      }
+    })
+  }else{
+    fn(false, []);
+  }
+}
 
 
-
+                  

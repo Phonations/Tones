@@ -1,6 +1,13 @@
 var User = require('../providers/user').User;
 
-exports.getUserById = function(station_id, fn){
+exports.getUserById = function(user_id, fn){
+  User.findById(user_id).exec(function(err, user){
+    if(err) {
+      fn(err, {"error":"[user] getUserById: An error has occurred"});
+    }else{
+      fn(err, user);
+    }
+  });
 }
 
 exports.getUserByUsername = function(username, fn){

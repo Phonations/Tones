@@ -20,7 +20,7 @@ var parent = module.parent.exports
 
 var io = sio.listen(server);
 io.set('authorization', function (hsData, accept) {
-  //console.log(hsData.headers.cookie);
+  console.log(hsData.headers.cookie);
   if(hsData.headers.cookie) {
     var cookies = parseCookies(cookie.parse(hsData.headers.cookie), config.session.secret)
       , sid = cookies['tones'];
@@ -59,19 +59,33 @@ io.sockets.on('connection', function (socket) {
     , now = new Date()
 
   socket.join(station_id);
-  io.sockets.in(station_id).emit('newUser', user);
+
+
   Station.getStationById(station_id, function(err, station){
+    console.log('socket : getStationById '+station.title);
     User.getUserById(user._id, function(err, currentuser){
-      currentuser.setCurrentStation(station_id, function(){
-        station.enter(user._id, function(){});
+      io.sockets.in(station_id).emit('newUser', currentuser);
+      console.log('socket : getUserById '+currentuser.username);
+      currentuser.setCurrentStation(station._id, function(){
+        station.enter(user._id, function(){
+          console.log('welcome to '+user.username+' room:'+station_id);
+        });
       });
     });
   });
-
-
-  socket.on('init', function(data) {
-    //console.log('welcome to '+user.username+' room:'+station_id);
-  });
+  /*socket.on('init', function(data) {
+    Station.getStationById(station_id, function(err, station){
+      console.log('socket : getStationById '+station.title);
+      User.getUserById(user._id, function(err, currentuser){
+        console.log('socket : getUserById '+currentuser.name);
+        currentuser.setCurrentStation(station_id, function(){
+          station.enter(user._id, function(){
+            console.log('welcome to '+user.username+' room:'+station_id);
+          });
+        });
+      });
+    });
+  });*/
 
 
   socket.on('addItem', function(data) {

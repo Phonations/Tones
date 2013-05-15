@@ -12,7 +12,7 @@ tone: cf provider/station
 */
 
 exports.getToneById = function(tone_id, fn){
-  Tone.findById(tone_id).exec(function(err, tone){
+  Tone.findOne({'id':tone_id}).exec(function(err, tone){
     if(err){
       fn(err, {"error":"[tone] getToneById: An error has occurred"});
     }else{

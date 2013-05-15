@@ -48,6 +48,7 @@ exports = module.exports = function(app, passport) {
 
   // modal actions
   app.post('/station/create', utils.restrict, require('./views/station/index').createstation);
+  app.get('/station/:id', utils.restrict, require('./views/station/index').redirectStation);
 
   // modal actions
   app.post('/tone/like', utils.restrict, require('./views/tone/index').like);

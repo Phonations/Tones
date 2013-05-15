@@ -1,0 +1,27 @@
+div.item-station.module-inner(id='#{station._id}')
+ - for (var i=0; (i<station.users.length)&&(i<4); i++) 
+  - user = station.users[i];
+  - layout = "profile"
+   include ../../user/user
+ div.station-text
+  p 
+   - for (var i=0; (i<station.users.length)&&(i<4); i++) 
+    - user = station.users[i];
+     strong #{user.username}
+     if (i<station.users.length-2)
+      | , 
+     else
+      if (i<station.users.length-1)
+       |  and 
+      else 
+       if (i<station.users.length)
+        |  
+   if (station.users.length>1)
+    | are 
+   else
+    | is 
+   | on 
+   strong #{station.title}
+  a(href="/station/#{station._id}")
+   button.btn.btn-info join
+ div.clear

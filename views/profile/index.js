@@ -7,12 +7,10 @@ var config = require('../../config')
   , Friendship = require('../../controller/friendship');
 
 exports.init = function (req, res){
-  console.log('[view/profile] init:');
   // get the user
   User.getUserByUrl(req.params.username, function(err, data){
     if(err) res.send(data);
     if(!data) res.redirect('/404/');
-    console.log('[view/profile] init:'+data);
     var user_profile = data;
 
     // get the stations the user created
@@ -37,20 +35,40 @@ exports.init = function (req, res){
 
             Station.getCurrentStationbyId(user_profile.current_station, function(err, data){
               if(err) res.send(data);
+
               user_profile.station = data;
 
               //get the friendship status between user_profile and user connected
-              Friendship.getFriendshipByUsers(req.user._doc._id,user_profile._id, function(err, friendship){
+              Friendship.getFriendshipByUsers(req.user._doc._id,user_profile._id, function(err, data){
+                if(err) res.send(data);
 
-              res.render('profile', {
-                title: user_profile.username,
-                user_profile: user_profile,
-                user: req.user._doc,
-                friendship: friendship
-              });
-              }) 
+                var friendship = data
+                Friendship.getFriendsByUser(user_profile._id, req.user._doc._id, function(err, data, request, pending){
 
-            
+                  if(err) res.send(data);
+
+                  user_profile.friends = data;
+                  user_profile.request = request;
+                  user_profile.pending = pending;
+
+                  //get notification
+                  Station.getStationsWithFriends(user_profile, req.user._doc._id, function(err, data){
+
+                  if(err) res.send(data);
+
+                  console.log('[view/profile] init:getStationsWithFriends:'+data);
+
+                  stationsWithFriends = data;
+                    res.render('profile', {
+                      title: user_profile.username,
+                      user_profile: user_profile,
+                      user: req.user._doc,
+                      friendship: friendship,
+                      stationsWithFriends: stationsWithFriends
+                    });
+                  })
+                });
+              }); 
             });
           });
         });
