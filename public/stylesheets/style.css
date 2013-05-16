@@ -134,8 +134,8 @@ height: auto;
 [class*="span"] {margin-left:10px;}
 
 .left-column{margin-left:5px;}
-.nav-station .search-query{margin-left:137px;}
-.nav-station {z-index:1042;}
+.navbar .search-query{margin-left:137px;}
+.navbar {z-index:1042;}
 
 .module {background-color:#ffffff;margin-top:10px;overflow: hidden}
 .module-inner {padding:10px;}

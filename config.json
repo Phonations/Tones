@@ -3,12 +3,12 @@
     "twitter": {
       "consumerkey" : "18rQVPHQPTcy73fTDEIwQQ",
       "consumersecret" : "oyXgU0ZUhD9jADZfMFubouChbqoKwNzu6unlwuGyb0",
-      "callback" : "http://127.0.0.1:3333/auth/twitter/callback"
+      "callback" : "http://localhost:3333/auth/twitter/callback"
     },
     "facebook": {
       "clientid" : "483671685031696",
       "clientsecret" : "62aedf45bd24f2c389e6863e066996f0",
-      "callback" : "http://127.0.0.1:3333/auth/facebook/callback"
+      "callback" : "/auth/facebook/callback"
     }
   },
   "session" : {

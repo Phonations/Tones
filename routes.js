@@ -36,6 +36,9 @@ exports = module.exports = function(app, passport) {
   app.post('/check-username', require('./views/signup/index').checkusername);
   app.post('/check-email', require('./views/signup/index').checkemail);
 
+  app.get('/auth/facebook', passport.authenticate('facebook', { callbackURL: config.auth.facebook.callback }));
+  app.get('/auth/facebook/callback', require('./views/signup/index').signupFacebook);
+
   app.get('/404/', require('./views/http/index').http404);
 
   // profile page

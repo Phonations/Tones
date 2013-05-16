@@ -9,7 +9,9 @@ var userSchema = mongoose.Schema({
     url: String,
     password: String,
     current_station: String,
-    friends:Array
+    friends:Array,
+    twitter: {},
+    facebook: {}
 });
 
 

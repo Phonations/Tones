@@ -4,8 +4,24 @@ div.navbar.navbar-inverse.navbar-fixed-top
    div.nav-collapse.collapse
     a(href="/").brand PublicTones 
    div.nav-collapse.collapse
+    form.navbar-search
+     input.search-query.span5(type="text", placeholder="Search")#search 
     ul.nav.pull-right
-     li 
-      a(href="/logout") 
-       i.icon-off.icon-white
-       span logout
+     li.dropdown
+      a.dropdown-toggle(href="#", data-toggle="dropdown") 
+       img(src="images/avatar.jpg", width="20px")
+       |  #{user.username} 
+       b.caret
+      ul.dropdown-menu
+       li 
+        a(href="#{user.url}")
+         i.icon-user
+         span  View profile
+       li 
+        a(href="#")
+         i.icon-edit
+         span  Edit profile
+       li 
+        a(href="/logout")
+         i.icon-off
+         span  logout
