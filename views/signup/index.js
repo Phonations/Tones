@@ -88,11 +88,20 @@ exports.checkemail = function(req, res){
 
 
 exports.signupFacebook = function(req, res, next) {
-  req._passport.instance.authenticate('facebook', { callbackURL: config.auth.facebook.callback }, function(err, info) {
+  passport.authenticate('facebook', { callbackURL: config.auth.facebook.callback }, function(err, info) {
     console.log(info);
 
-    // check if the user 
-    console.log(req.user._doc.username);
+    if(req.isAuthenticated()){
+      console.log('req.user._doc.username isAuthenticated');
+    }else{
+      console.log('is not Authenticated');
+    }
+    
+    req.login(info, function(err) {
+      if (err) return next(err);
+      
+      res.redirect('/');
+    });
     //if (!info || !info.profile) return res.redirect('/signup/');
     
     // we check if the user exist 
